@@ -1,0 +1,17 @@
+[
+    {
+      "userId": "cb13b662-92c2-4b19-812b-2c717669befa",
+      "votes": {
+        "4c2d1b8f-5199-462f-95b9-2cfeb0a7d3e4": 1,
+        "ab21f3b7-36ab-4895-a1e8-fb0635e2d75e": -1
+      }
+    },
+    {
+      "userId": "abcd1234-56ef-78gh-90ij-klmnopqrstuv",
+      "votes": {
+        "4c2d1b8f-5199-462f-95b9-2cfeb0a7d3e4": -1,
+        "ab21f3b7-36ab-4895-a1e8-fb0635e2d75e": 1
+      }
+    }
+  ]
+  

@@ -1,0 +1,11 @@
+.pollingAppContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(to right, #003366, #000000);
+  color: white;
+  font-family: 'Poppins', sans-serif;
+}

@@ -1,0 +1,16 @@
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 2px;
+  font-size: 1rem;
+  color: white;
+  background: linear-gradient(to right, #A4D0E5, #003366);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(164, 208, 229, 0.4);
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(164, 208, 229, 0.7);
+}
