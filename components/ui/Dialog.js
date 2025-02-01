@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../styles/components/Dialog.module.css';
+import '../../styles/components/ui/Dialog.module.css';
 
 const Dialog = ({ children, onClose }) => {
   return (

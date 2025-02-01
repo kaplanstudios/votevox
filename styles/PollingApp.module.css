@@ -9,3 +9,45 @@
   color: white;
   font-family: 'Poppins', sans-serif;
 }
+
+.navbar {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 10px 0;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.pollsContainer {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 20px;
+}
+
+.pollCard {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.voteContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.voteButton {
+  cursor: pointer;
+  font-size: 20px;
+  transition: color 0.2s;
+}
+
+.voteButton.active {
+  color: #4caf50;
+}
+
+.voteButton.inactive {
+  color: #aaa;
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../styles/components/Button.module.css';
+import '../../styles/components/ui/Button.module.css';
 
 const Button = ({ children, onClick, className }) => {
   return (

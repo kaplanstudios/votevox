@@ -3,6 +3,6 @@ import fetch, { Request } from 'node-fetch';
 
 global.Request = Request;
 
-module.exports = {
+export default {
   reactStrictMode: true,
-}
+};

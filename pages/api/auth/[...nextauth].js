@@ -1,12 +1,17 @@
+// pages/api/auth/[...nextauth].js
 import NextAuth from "next-auth";
-import { CredentialsProvider } from "next-auth/providers";  // Updated import
+import CredentialsProvider from "next-auth/providers/credentials";
 
 export default NextAuth({
+  session: {
+    strategy: "jwt", // Ensure JWT is used for session persistence
+    maxAge: 30 * 24 * 60 * 60, // 30 days session duration
+  },
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "text" },
+        email: { label: "Email", type: "text", placeholder: "example@example.com" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
@@ -15,20 +20,20 @@ export default NextAuth({
         if (user) {
           return user;
         } else {
-          return null;
+          throw new Error("Invalid credentials");
         }
       },
     }),
   ],
   callbacks: {
-    async jwt(token, user) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
         token.email = user.email;
       }
       return token;
     },
-    async session(session, token) {
+    async session({ session, token }) {
       if (token) {
         session.user.id = token.id;
         session.user.email = token.email;
@@ -37,8 +42,8 @@ export default NextAuth({
     },
   },
   pages: {
-    signIn: "/signin", // Specify the custom signin page
-    error: "/signin", // Custom error page if necessary
+    signIn: "/signin",
+    error: "/signin",
   },
-  secret: process.env.SECRET_KEY, // Make sure to set a secret key
+  secret: process.env.NEXTAUTH_SECRET,
 });
