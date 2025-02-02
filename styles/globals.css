@@ -1,80 +1,31 @@
-/* globals.css */
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer base {
-  html {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  }
-
-  body {
-    background: #000000; /* Full black background */
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    margin: 0; /* Ensures no extra margin */
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-weight: bold;
-  }
-
-  html, body, #__next {
-    height: 100%;
-    width: 100%;
-  }
+/* styles/globals.css */
+html, body {
+  font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
 }
 
-@layer utilities {
-  .bg-opacity-65 {
-    background-color: rgba(0, 0, 0, 0.65);
-  }
+.bg-black-background {
+  background-color: #000000;
+}
 
-  .backdrop-blur-lg {
-    backdrop-filter: blur(10px);
-  }
+.text-gray-text {
+  color: #ffffff;
+}
 
-  .bg-black {
-    background-color: #000000;
-  }
+.text-light-blue {
+  color: #A0D3E0;
+}
 
-  /* Centering layout for header, main, and footer */
-  .flex {
-    display: flex;
-  }
+/* Subtle gradient shadow for card hover */
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0px 6px 12px rgba(255, 182, 193, 0.5), 0px 6px 16px rgba(138, 43, 226, 0.6);
+}
 
-  .flex-grow {
-    flex-grow: 1;
-  }
-
-  .items-center {
-    align-items: center;
-  }
-
-  .justify-between {
-    justify-content: space-between;
-  }
-
-  /* Animation for moving header from center to top-left */
-  .move-header {
-    transition: all 1s ease-in-out;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .move-header.animate {
-    top: 20px;
-    left: 20px;
-    transform: translate(0, 0);
-  }
+/* Grid Container for Poll Cards */
+.polls-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid */
+  gap: 24px;
+  justify-items: center;
+  padding: 20px;
 }

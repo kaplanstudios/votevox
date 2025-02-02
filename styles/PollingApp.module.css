@@ -1,53 +1,13 @@
 .pollingAppContainer {
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 20px;
-  background: linear-gradient(to right, #003366, #000000);
-  color: white;
-  font-family: 'Poppins', sans-serif;
 }
 
-.navbar {
-  width: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  padding: 10px 0;
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.pollsContainer {
+.pollCardsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
   width: 100%;
-  max-width: 600px;
-  margin-top: 20px;
-}
-
-.pollCard {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  aspect-ratio: 1; /* make the cards square */
-}
-
-.voteContainer {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.voteButton {
-  cursor: pointer;
-  font-size: 20px;
-  transition: color 0.2s;
-}
-
-.voteButton.active {
-  color: #4caf50;
 }

@@ -1,16 +1,16 @@
+/* styles/components/ui/Button.module.css */
 .btn {
   padding: 10px 20px;
-  border: none;
-  border-radius: 2px;
-  font-size: 1rem;
-  color: white;
-  background: linear-gradient(to right, #A4D0E5, #003366);
-  cursor: pointer;
+  border: 1px solid #D3D3D3; /* Light gray border */
+  background: #A0D3E0; /* Light blue background */
+  color: #ffffff; /* White text */
+  border-radius: 4px;
   transition: all 0.3s ease-in-out;
-  box-shadow: 0 4px 6px rgba(164, 208, 229, 0.4);
+  box-shadow: 0 4px 8px rgba(164, 208, 229, 0.2);
 }
 
 .btn:hover {
+  background: #7bb4cc; /* Darker light blue */
   transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(164, 208, 229, 0.7);
+  box-shadow: 0 6px 12px rgba(164, 208, 229, 0.4);
 }

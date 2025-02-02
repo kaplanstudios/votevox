@@ -1,27 +1,15 @@
-.container {
-  margin-bottom: 16px;
+/* styles/components/ui/Input.module.css */
+.input-field {
+  background-color: #2E2E2E; /* Charcoal gray background */
+  color: #ffffff; /* White text */
+  border: 1px solid #D3D3D3; /* Light gray border */
+  padding: 12px;
+  border-radius: 4px;
+  transition: all 0.3s ease-in-out;
 }
 
-.label {
-  color: white;
-  font-size: 14px;
-  margin-bottom: 4px;
-  display: block;
-}
-
-.input {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 2px;
-  background: rgba(0, 0, 0, 0.65);
-  color: white;
-  font-size: 16px;
+.input-field:focus {
+  border-color: #A0D3E0; /* Light blue border on focus */
   outline: none;
-  box-sizing: border-box;
-  backdrop-filter: blur(5px);
-}
-
-.input:focus {
-  border: 2px solid #007bff;
+  box-shadow: 0 0 4px rgba(164, 208, 229, 0.7);
 }

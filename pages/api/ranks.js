@@ -1,45 +1,32 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { getSession } from 'next-auth/react';
-import { readFileSync, writeFileSync } from 'fs';
-import { join } from 'path';
+import { getSession } from "next-auth/react";
+import { join } from "path";
+import fs from "fs/promises";
 
-const ranksFile = join(process.cwd(), 'data', 'ranks.json');
-const usersFile = join(process.cwd(), 'data', 'users.json');
-const pollsFile = join(process.cwd(), 'data', 'polls.json');
+// Define file paths using UUID-based JSON data files
+const usersFile = join(process.cwd(), "data", "users.json");
+const pollsFile = join(process.cwd(), "data", "polls.json");
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req, res) {
+  // Get the session from NextAuth
   const session = await getSession({ req });
-
   if (!session) {
-    return res.status(401).json({ message: 'You must be logged in to vote' });
+    res.status(401).json({ message: "Unauthorized" });
+    return;
   }
 
-  const { pollId, rank } = req.body;
+  // Handle POST requests for ranking (voting)
+  if (req.method === "POST") {
+    const { pollId, rank } = req.body; // Expect rank to be 1, -1, or 0
 
-  if (!pollId || !rank) {
-    return res.status(400).json({ message: 'Invalid request body' });
+    // Add your logic here for updating ranking data.
+    // For example, read the polls file, update the appropriate poll, and write back.
+
+    // Dummy response for now:
+    res.status(200).json({ message: "Vote registered", pollId, rank });
+    return;
   }
 
-  const ranks = JSON.parse(readFileSync(ranksFile, 'utf8'));
-  const users = JSON.parse(readFileSync(usersFile, 'utf8'));
-  const polls = JSON.parse(readFileSync(pollsFile, 'utf8'));
-
-  const user = users.find((user) => user.id === session.user.id);
-  const poll = polls.find((poll) => poll.id === pollId);
-
-  if (!user || !poll) {
-    return res.status(404).json({ message: 'User or poll not found' });
-  }
-
-  const existingRank = ranks.find((rank) => rank.userId === user.id && rank.pollId === pollId);
-
-  if (existingRank) {
-    existingRank.rank = rank;
-  } else {
-    ranks.push({ userId: user.id, pollId, rank });
-  }
-
-  writeFileSync(ranksFile, JSON.stringify(ranks));
-
-  return res.status(201).json({ message: 'Rank updated successfully' });
+  // Return a 405 for any non-POST requests.
+  res.setHeader("Allow", ["POST"]);
+  res.status(405).end(`Method ${req.method} Not Allowed`);
 }

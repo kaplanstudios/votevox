@@ -1,0 +1,12 @@
+/* styles/components/ui/CardContent.module.css */
+.card-content {
+  background-color: #2E2E2E; /* Charcoal gray */
+  color: #ffffff; /* White text */
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.card-content:hover {
+  background-color: #3E3E3E; /* Slightly lighter gray on hover */
+}

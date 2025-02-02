@@ -1,44 +1,48 @@
-// pages/pollingapp.js
-import { useSession, signOut } from "next-auth/react";
-import { getSession } from "next-auth/react";
+import React, { useState } from "react";
+import PollCard from "../components/ui/PollCard";
+import CardDialog from "../components/ui/CardDialog"; // Import CardDialog instead of Dialog
+import styles from "../styles/PollingApp.module.css";
 
-export default function PollingApp() {
-  const { data: session, status } = useSession();
+const PollingApp = () => {
+  const [polls, setPolls] = useState([
+    { id: 1, title: "Poll 1", description: "Poll 1 description", upvotes: 10, downvotes: 5 },
+    { id: 2, title: "Poll 2", description: "Poll 2 description", upvotes: 8, downvotes: 2 },
+    { id: 3, title: "Poll 3", description: "Poll 3 description", upvotes: 15, downvotes: 3 },
+    { id: 4, title: "Poll 4", description: "Poll 4 description", upvotes: 6, downvotes: 4 },
+    { id: 5, title: "Poll 5", description: "Poll 5 description", upvotes: 9, downvotes: 5 },
+    { id: 6, title: "Poll 6", description: "Poll 6 description", upvotes: 7, downvotes: 6 },
+    { id: 7, title: "Poll 7", description: "Poll 7 description", upvotes: 13, downvotes: 1 },
+    { id: 8, title: "Poll 8", description: "Poll 8 description", upvotes: 12, downvotes: 7 },
+  ]);
 
-  // Base URL for constructing callback URLs
-  const baseUrl = process.env.NEXT_PUBLIC_NEXTAUTH_URL || "http://localhost:3000";
+  const [selectedPoll, setSelectedPoll] = useState(null);
 
-  if (status === "loading") return <p>Loading...</p>;
+  const handleVote = (pollId, rank) => {
+    // Handle voting logic
+    console.log(`Voted on poll ${pollId} with rank ${rank}`);
+  };
+
+  const openDialog = (poll) => {
+    setSelectedPoll(poll);
+  };
+
+  const closeDialog = () => {
+    setSelectedPoll(null);
+  };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-3xl font-bold">Welcome to the Polling App</h1>
-      <p className="mt-2 text-lg">You are logged in as {session?.user?.email}</p>
-      <button
-        onClick={() => signOut({ callbackUrl: `${baseUrl}/signin` })}
-        className="mt-4 px-4 py-2 bg-red-500 text-white rounded-md"
-      >
-        Logout
-      </button>
+    <div className={styles.pollingAppContainer}>
+      <div className={styles.pollCardsGrid}>
+        {polls.map((poll) => (
+          <PollCard key={poll.id} poll={poll} onVote={handleVote} onOpenDialog={openDialog} />
+        ))}
+      </div>
+
+      {selectedPoll && (
+        <CardDialog poll={selectedPoll} onClose={closeDialog} onVote={handleVote} />
+      )}
     </div>
   );
-}
+};
 
-// Protect this page with a server-side check
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-
-  // If no session, redirect to sign in
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/signin",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: { session },
-  };
-}
+export default PollingApp;

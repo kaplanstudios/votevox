@@ -1,10 +1,16 @@
-/* styles/components/textarea.css */
-
+/* styles/components/ui/Textarea.module.css */
 .textarea {
-    @apply px-4 py-3 bg-gray-800 text-white border-2 border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full transition-all duration-300;
-  }
-  
-  .textarea:focus {
-    border-color: #1e40af; /* Blue border on focus */
-  }
-  
+  background-color: #2E2E2E; /* Charcoal gray background */
+  color: #ffffff; /* White text */
+  border: 1px solid #D3D3D3; /* Light gray border */
+  padding: 12px;
+  border-radius: 4px;
+  resize: vertical;
+  transition: all 0.3s ease-in-out;
+}
+
+.textarea:focus {
+  border-color: #A0D3E0; /* Light blue border on focus */
+  outline: none;
+  box-shadow: 0 0 4px rgba(164, 208, 229, 0.7);
+}

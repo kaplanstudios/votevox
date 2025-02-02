@@ -1,43 +1,42 @@
+/* styles/components/ui/Toast.module.css */
 .toast {
+  color: #ffffff; /* White text */
+  padding: 10px 20px;
+  border-radius: 4px;
   position: fixed;
   bottom: 20px;
-  right: 20px;
-  padding: 12px 16px;
-  border-radius: 8px;
-  color: white;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-width: 250px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  animation: fadeInOut 3s ease-in-out;
+  left: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  transition: opacity 0.3s ease-in-out;
 }
 
-.info {
-  background-color: #007bff;
+.toast-info {
+  background-color: #2E2E2E; /* Charcoal gray for informational messages */
 }
 
-.success {
-  background-color: #28a745;
+.toast-success {
+  background-color: #4CAF50; /* Green for success messages */
 }
 
-.error {
-  background-color: #dc3545;
+.toast-error {
+  background-color: #F44336; /* Red for error messages */
+}
+
+.toast:hover {
+  opacity: 0.9;
 }
 
 .closeButton {
   background: none;
   border: none;
-  color: white;
-  font-size: 18px;
-  margin-left: 12px;
+  color: #ffffff;
+  font-size: 16px;
   cursor: pointer;
+  padding: 5px;
+  transition: all 0.3s ease-in-out;
 }
 
-@keyframes fadeInOut {
-  0% { opacity: 0; transform: translateY(10px); }
-  10% { opacity: 1; transform: translateY(0); }
-  90% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(10px); }
+.closeButton:hover {
+  color: #A0D3E0; /* Light blue hover effect */
 }
