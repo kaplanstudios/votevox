@@ -18,5 +18,15 @@
     "id": "63006412-cbad-4c57-839f-2b040495365a",
     "email": "test@test.com",
     "password": "$2a$10$c2CtHJATFRd36HhurKZ9KeyONdfvCd6QlvMeIw5tyVUOBlTO05zZe"
+  },
+  {
+    "id": "e788ad64-9919-4dc6-b866-5a23a3331161",
+    "email": "try@try.com",
+    "password": "$2a$10$8215Pl7XgjL2oEKO8r9HS.NJgAEbR1saRz0lTY8P.uSKVS2xGrtlm"
+  },
+  {
+    "id": "5e5b3358-ad13-4145-ac32-9d182a6bd02a",
+    "email": "google@google.com",
+    "password": "$2a$10$HPVExjPeGGFroKOkVO.41O/shmsw1wCNyyGYygx26EORauMdDa1gu"
   }
 ]

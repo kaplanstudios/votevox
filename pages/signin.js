@@ -1,61 +1,79 @@
-import { signIn } from "next-auth/react";
+// pages/signin.js
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import Button from "../components/ui/Button"; // Custom Button component
-import Input from "../components/ui/Input"; // Custom Input component
+import { getSession } from "next-auth/react";
 
-const SignIn = () => {
+export default function SignIn() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const router = useRouter();
+  const [error, setError] = useState("");
+
+  // Base URL for constructing callback URLs
+  const baseUrl = process.env.NEXT_PUBLIC_NEXTAUTH_URL || "http://localhost:3000";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (!email || !password) {
-      setErrorMessage("Please enter both email and password.");
-      return;
-    }
+    setError("");
 
-    const res = await signIn("credentials", {
+    const result = await signIn("credentials", {
       redirect: false,
       email,
       password,
+      callbackUrl: `${baseUrl}/pollingapp`,
     });
 
-    if (res?.error) {
-      setErrorMessage(res.error);
-    } else {
-      // Redirect to PollingApp after successful login
-      router.push("/pollingapp");
+    if (result?.error) {
+      setError("Invalid email or password.");
+      return;
     }
+
+    // Redirect using the returned callback URL, if provided
+    router.push(result?.url || `${baseUrl}/pollingapp`);
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-black">
-      <div className="flex flex-col items-center bg-black p-6 rounded-lg w-full max-w-lg">
-        <form onSubmit={handleSubmit} className="w-full">
-          <Input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <Input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-          <Button type="submit">Sign In</Button>
-        </form>
-      </div>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <h1 className="text-2xl font-bold">Sign In</h1>
+      <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          className="px-3 py-2 border rounded-md"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          className="px-3 py-2 border rounded-md"
+        />
+        <button type="submit" className="px-4 py-2 text-white bg-blue-500 rounded-md">
+          Sign In
+        </button>
+        {error && <p className="text-red-500">{error}</p>}
+      </form>
     </div>
   );
-};
+}
 
-export default SignIn;
+// If already authenticated, redirect on the server side.
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  if (session) {
+    return {
+      redirect: {
+        destination: "/pollingapp",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+}

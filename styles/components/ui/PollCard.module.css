@@ -1,0 +1,13 @@
+.pollCard {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    aspect-ratio: 1; /* make the cards square */
+  }
+  
+  .voteContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }

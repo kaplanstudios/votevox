@@ -1,10 +1,16 @@
+// pages/_app.js
 import { SessionProvider } from "next-auth/react";
-import "../styles/globals.css"; // Add global styles
 
-export default function App({ Component, pageProps }) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
-    <SessionProvider session={pageProps.session}>
+    <SessionProvider
+      session={session}
+      refetchInterval={0}
+      refetchOnWindowFocus={false}
+    >
       <Component {...pageProps} />
     </SessionProvider>
   );
 }
+
+export default MyApp;

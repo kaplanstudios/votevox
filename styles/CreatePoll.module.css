@@ -1,67 +1,50 @@
-.container {
+.createPollContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
     padding: 20px;
-    max-width: 600px;
-    margin: 0 auto;
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
     border-radius: 10px;
-}
-
-.title {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-    font-weight: bold;
-}
-
-.inputGroup {
-    margin-bottom: 15px;
-}
-
-.label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #333;
-}
-
-.input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    transition: border-color 0.2s;
-    width: 100%;
-}
-
-.input:focus {
-    border-color: #007bff;
-    outline: none;
-}
-
-.option {
-    display: flex;
-    align-items: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .createPollContainer h2 {
+    margin-top: 0;
+  }
+  
+  .createPollContainer form {
+    margin-top: 20px;
+  }
+  
+  .createPollContainer label {
+    display: block;
     margin-bottom: 10px;
-}
-
-.addButton, .removeButton, .submitButton {
-    background-color: #007bff;
-    color: white;
-    border: none;
+  }
+  
+  .createPollContainer input, .createPollContainer textarea {
+    width: 100%;
     padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+  }
+  
+  .createPollContainer button[type="submit"] {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.2s;
-    margin-top: 10px;
-}
-
-.addButton:hover, .removeButton:hover, .submitButton:hover {
-    background-color: #0056b3;
-}
-
-.error {
-    color: red;
-    font-size: 14px;
-    margin-bottom: 10px;
-    text-align: center;
-}
+  }
+  
+  .createPollContainer button[type="submit"]:hover {
+    background-color: #3e8e41;
+  }
+  
+  .createPollContainer button {
+    background-color: #fff;
+    color: #4CAF50;
+    padding: 10px 20px;
+  }

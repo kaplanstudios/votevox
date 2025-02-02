@@ -1,22 +1,45 @@
-import fs from 'fs';
-import path from 'path';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { getSession } from 'next-auth/react';
+import { readFileSync, writeFileSync } from 'fs';
+import { join } from 'path';
 
-// Helper function to get ranks (votes) for a user
-const ranksFilePath = path.join(process.cwd(), 'data', 'ranks.json');
+const ranksFile = join(process.cwd(), 'data', 'ranks.json');
+const usersFile = join(process.cwd(), 'data', 'users.json');
+const pollsFile = join(process.cwd(), 'data', 'polls.json');
 
-export default function handler(req, res) {
-  const { userId } = req.query; // Extract userId from query parameter
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const session = await getSession({ req });
 
-  // Read the ranks data
-  const fileData = fs.readFileSync(ranksFilePath, 'utf-8');
-  const ranks = JSON.parse(fileData);
-
-  // Find the user's voting data
-  const userVotes = ranks.find((rank) => rank.userId === userId);
-
-  if (userVotes) {
-    res.status(200).json(userVotes.votes); // Return the user's vote data
-  } else {
-    res.status(404).json({ error: 'User votes not found' });
+  if (!session) {
+    return res.status(401).json({ message: 'You must be logged in to vote' });
   }
+
+  const { pollId, rank } = req.body;
+
+  if (!pollId || !rank) {
+    return res.status(400).json({ message: 'Invalid request body' });
+  }
+
+  const ranks = JSON.parse(readFileSync(ranksFile, 'utf8'));
+  const users = JSON.parse(readFileSync(usersFile, 'utf8'));
+  const polls = JSON.parse(readFileSync(pollsFile, 'utf8'));
+
+  const user = users.find((user) => user.id === session.user.id);
+  const poll = polls.find((poll) => poll.id === pollId);
+
+  if (!user || !poll) {
+    return res.status(404).json({ message: 'User or poll not found' });
+  }
+
+  const existingRank = ranks.find((rank) => rank.userId === user.id && rank.pollId === pollId);
+
+  if (existingRank) {
+    existingRank.rank = rank;
+  } else {
+    ranks.push({ userId: user.id, pollId, rank });
+  }
+
+  writeFileSync(ranksFile, JSON.stringify(ranks));
+
+  return res.status(201).json({ message: 'Rank updated successfully' });
 }

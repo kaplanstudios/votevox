@@ -1,0 +1,48 @@
+datasource db {
+  provider = "json"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Poll {
+  id       String   @id @default(cuid())
+  title    String
+  options  String[]
+  votes    Vote[]
+}
+
+model Rank {
+  id       String   @id @default(cuid())
+  userId   String
+  pollId   String
+  rank     Int
+  user     User     @relation(fields: [userId], references: [id])
+  poll     Poll     @relation(fields: [pollId], references: [id])
+}
+
+model User {
+  id       String   @id @default(cuid())
+  name     String
+  email    String   @unique
+  ranks    Rank[]
+  votes    Vote[]
+}
+
+model Vote {
+  id       String   @id @default(cuid())
+  userId   String
+  pollId   String
+  option   String
+  user     User     @relation(fields: [userId], references: [id])
+  poll     Poll     @relation(fields: [pollId], references: [id])
+}
+
+model Token {
+  id       String   @id @default(cuid())
+  token    String
+  userId   String
+  user     User     @relation(fields: [userId], references: [id])
+}

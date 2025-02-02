@@ -1,21 +1,21 @@
-import React, { useEffect } from "react";
-import styles from "../../styles/components/ui/Toast.module.css"; // Ensure correct path
+import React, { useEffect } from 'react';
+import styles from '../../styles/components/ui/Toast.module.css';
 
-const Toast = ({ message, type = "info", onClose }) => {
+export default function Toast({ message, onClose }) {
   useEffect(() => {
     const timer = setTimeout(() => {
-      onClose();
+      if (typeof onClose === 'function') {
+        onClose();
+      }
     }, 3000);
 
     return () => clearTimeout(timer);
   }, [onClose]);
 
   return (
-    <div className={`${styles.toast} ${styles[type]}`}>
+    <div className={styles.toast}>
       <span>{message}</span>
-      <button className={styles.closeButton} onClick={onClose}>✖</button>
+      <button className={styles.closeButton} onClick={onClose}>×</button>
     </div>
   );
-};
-
-export default Toast;
+}
