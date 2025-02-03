@@ -1,23 +1,93 @@
 .pollingAppContainer {
   display: flex;
-  justify-content: center; /* Center horizontally */
-  background: #000000; /* Set background to black */
-  overflow: hidden; /* Prevent overflow issues */
-  padding: 0 16px; /* Optional: add small padding for better responsiveness */
+  justify-content: center;
+  background: #000000;
+  overflow: hidden;
+  padding: 0 16px;
+  position: relative;
 }
 
 .pollList {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 320px); /* Ensure each card is 320px wide */
-  grid-auto-rows: 300px; /* Set the height of each row to 300px */
-  grid-gap: 0; /* Remove gaps between rows and columns */
+  grid-template-columns: repeat(auto-fill, 320px);
+  grid-auto-rows: 300px;
+  grid-gap: 0;
   background: #000000;
-  justify-content: center; /* Center the grid items horizontally within the grid container */
-  width: 100%; /* Ensure the grid container takes the full width available */
-  max-width: 1200px; /* Optional: Set a max-width for better layout control */
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
 }
 
-/* Ensure the first card in each row gets a left border */
 .pollList .pollCard:first-child {
-  border-left: 1px dotted #FFFFFF; /* Apply left border only to the first card in each row */
+  border-left: 1px dotted #FFFFFF;
+}
+
+/* When a modal is active, blur the background */
+.blurBackground {
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+/* Modal overlay */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+}
+
+/* Modal content container */
+.modalContent {
+  position: relative;
+  background: #000;
+  padding: 20px;
+  border-radius: 8px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  z-index: 1000;
+}
+
+/* Inner modal content that fades in */
+.modalInner {
+  opacity: 0;
+  animation: fadeInModal 3s forwards;
+}
+
+@keyframes fadeInModal {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Extra modal UI styles (if needed elsewhere) */
+.signatureCanvas {
+  width: 100%;
+  height: 150px;
+  background: #fff;
+  border: 2px dashed #0000FF;
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.saveVoteButton,
+.cancelButton {
+  padding: 10px 16px;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.saveVoteButton:hover,
+.cancelButton:hover {
+  background-color: #0056b3;
 }

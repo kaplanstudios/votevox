@@ -1,26 +1,27 @@
 .pollCard {
     background-color: #000000;
     color: #FFFFFF;
-    border: 1px dotted #FFFFFF; /* Dotted border */
-    padding: 24px 16px 16px 16px; /* Top padding of 24px and 16px for other sides */
-    width: 300px; /* Ensure all PollCards are 300px wide */
+    border: 1px dotted #FFFFFF;
+    padding: 24px 16px 16px 16px;
+    width: 300px;
     height: 300px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease; /* For smooth border change on hover */
+    transition: transform 2s ease, box-shadow 0.3s ease, border 0.3s ease, opacity 3s ease;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     float: left;
+    transform-origin: center;
   }
   
   .pollCard:hover {
     transform: translateY(-8px);
-    border: 1px solid #FFFFFF; /* Change border to solid on hover */
+    border: 1px solid #FFFFFF;
   }
   
   /* Truncate the description text after 3 lines */
   .pollDescription {
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* Limit text to 3 lines */
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -29,11 +30,12 @@
     line-height: 1.5;
   }
   
-  /* Card Content */
+  /* Card Content styles passed to CardContent component */
   .cardContent {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    transform: scale(1);
   }
   
   .pollTitle {
@@ -41,6 +43,7 @@
     font-weight: 700;
     color: #FFFFFF;
     margin: 0;
+    transform: scale(1);
   }
   
   .pollOptions {
@@ -52,7 +55,7 @@
   .viewVoteButton {
     background-color: #000000;
     color: #FFFFFF;
-    border: 2px solid #0000FF; /* Solid blue border */
+    border: 2px solid #0000FF;
     padding: 12px 20px;
     border-radius: 4px;
     font-size: 18px;
@@ -65,7 +68,7 @@
     color: #000000;
   }
   
-  /* Vote Container: Positioning for upvote and downvote buttons */
+  /* Vote Container */
   .voteContainer {
     bottom: 10px;
     right: 10px;
@@ -88,23 +91,23 @@
   }
   
   .voteButton:hover {
-    color: #4f46e5; /* Change color on hover */
+    color: #4f46e5;
   }
   
   .voteButton.active {
     font-weight: 700;
   }
   
-  .voteButton.activeUpvote {
+  .activeUpvote {
     color: green;
   }
   
-  .voteButton.activeDownvote {
+  .activeDownvote {
     color: red;
   }
   
-  .voteButton.disabled {
-    color: #888; /* Gray out the button */
+  .disabled {
+    color: #888;
   }
   
   .voteCount {
@@ -118,5 +121,31 @@
     left: 10px;
     color: #FFFFFF;
     font-size: 14px;
+  }
+  
+  /* Fade-out and fade-in animations */
+  .fadeOut {
+    opacity: 0;
+  }
+  
+  .fadeIn {
+    opacity: 1;
+  }
+  
+  /* Keyframe animation for zooming in */
+  @keyframes zoomIn {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.5);
+    }
+  }
+  
+  /* When the card is active in modal, apply the zoom animation */
+  .activeCard {
+    animation: zoomIn 2s ease forwards;
+    z-index: 10;
+    transform-origin: center;
   }
   
