@@ -16,7 +16,7 @@
       },
       {
         "userId": "63006412-cbad-4c57-839f-2b040495365a",
-        "vote": 1
+        "vote": null
       }
     ]
   },
@@ -51,6 +51,55 @@
       {
         "userId": "abcd1234-56ef-78gh-90ij-klmnopqrstuv",
         "vote": -1
+      },
+      {
+        "userId": "63006412-cbad-4c57-839f-2b040495365a",
+        "vote": -1
+      }
+    ]
+  },
+  {
+    "pollId": "d1ae4bfe-d0bb-4f5a-9e34-f8a85f7b7dbd",
+    "votes": [
+      {
+        "userId": "63006412-cbad-4c57-839f-2b040495365a",
+        "vote": 1
+      }
+    ]
+  },
+  {
+    "pollId": "c1fbe12f-cf96-4a25-94d3-e38fcf8d688f",
+    "votes": [
+      {
+        "userId": "63006412-cbad-4c57-839f-2b040495365a",
+        "vote": null
+      }
+    ]
+  },
+  {
+    "pollId": "0d2396a7-7999-4d1f-95bb-b9a7fdbfb1a1",
+    "votes": [
+      {
+        "userId": "63006412-cbad-4c57-839f-2b040495365a",
+        "vote": null
+      }
+    ]
+  },
+  {
+    "pollId": "4f4b2df7-073a-43c5-9d1e-c28c283a2541",
+    "votes": [
+      {
+        "userId": "63006412-cbad-4c57-839f-2b040495365a",
+        "vote": 1
+      }
+    ]
+  },
+  {
+    "pollId": "90156b9e-7f3d-4bfa-a15a-fdb25140fdfa",
+    "votes": [
+      {
+        "userId": "63006412-cbad-4c57-839f-2b040495365a",
+        "vote": 1
       }
     ]
   }

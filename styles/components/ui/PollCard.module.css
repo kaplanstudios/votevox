@@ -95,6 +95,18 @@
     font-weight: 700;
   }
   
+  .voteButton.activeUpvote {
+    color: green;
+  }
+  
+  .voteButton.activeDownvote {
+    color: red;
+  }
+  
+  .voteButton.disabled {
+    color: #888; /* Gray out the button */
+  }
+  
   .voteCount {
     font-size: 14px;
     color: #333;
@@ -102,7 +114,6 @@
   
   /* Closing Date */
   .closingDate {
-
     bottom: 10px;
     left: 10px;
     color: #FFFFFF;
