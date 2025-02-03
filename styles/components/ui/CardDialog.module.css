@@ -4,35 +4,48 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6); /* Dark background */
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    backdrop-filter: blur(5px); /* Apply blur effect to the background */
-    z-index: 999; /* Ensure it's above other content */
+    z-index: 1000;
   }
   
   .dialogContent {
     background-color: white;
     padding: 40px;
     border-radius: 8px;
-    text-align: center;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 400px;
+    max-width: 90%;
     transition: opacity 0.3s ease, transform 0.3s ease;
-    opacity: 0;
-    transform: scale(0.8);
-    animation: fadeInZoom 0.5s forwards;
   }
   
-  @keyframes fadeInZoom {
-    0% {
-      opacity: 0;
-      transform: scale(0.8);
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
+  .pollOptions {
+    margin-top: 20px;
+  }
+  
+  .voteButton {
+    margin: 10px 0;
+  }
+  
+  .voteButton button {
+    background-color: #0073e6;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .voteButton button:hover {
+    background-color: #005bb5;
+  }
+  
+  .footer {
+    margin-top: 20px;
   }
   
   .closeDialog {
@@ -42,7 +55,7 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    margin-top: 15px;
+    width: 100%;
   }
   
   .closeDialog:hover {

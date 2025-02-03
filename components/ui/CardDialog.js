@@ -1,27 +1,27 @@
-import React, { useEffect } from "react";
-import styles from "../../styles/components/ui/CardDialog.module.css";
+import React from "react";
+import styles from "../../styles/components/ui/CardDialog.module.css"; // Your styling for the modal
 
 const CardDialog = ({ poll, onClose, onVote }) => {
-
-  useEffect(() => {
-    // Optionally handle any cleanup after the dialog is displayed
-    return () => {
-      // Cleanup
-    };
-  }, []);
-
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.dialogContent}>
-        <h4>{poll.title}</h4>
+        <h3>{poll.title}</h3>
         <p>{poll.description}</p>
-        <div className={styles.voteButtonsDialog}>
-          <button onClick={() => onVote(poll.id, 1)}>Upvote</button>
-          <button onClick={() => onVote(poll.id, -1)}>Downvote</button>
+
+        {/* Display poll options dynamically */}
+        <div className={styles.pollOptions}>
+          {poll.options && poll.options.map((option, index) => (
+            <div key={index} className={styles.voteButton}>
+              <button onClick={() => onVote(poll.id, option)}>{option}</button>
+            </div>
+          ))}
         </div>
-        <button onClick={onClose} className={styles.closeDialog}>
-          Close
-        </button>
+
+        <div className={styles.footer}>
+          <button className={styles.closeDialog} onClick={onClose}>
+            Close
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -1,13 +1,23 @@
 .pollingAppContainer {
-  padding: 20px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center; /* Center horizontally */
+  background: #000000; /* Set background to black */
+  overflow: hidden; /* Prevent overflow issues */
+  padding: 0 16px; /* Optional: add small padding for better responsiveness */
 }
 
-.pollCardsGrid {
+.pollList {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-  width: 100%;
+  grid-template-columns: repeat(auto-fill, 320px); /* Ensure each card is 320px wide */
+  grid-auto-rows: 300px; /* Set the height of each row to 300px */
+  grid-gap: 0; /* Remove gaps between rows and columns */
+  background: #000000;
+  justify-content: center; /* Center the grid items horizontally within the grid container */
+  width: 100%; /* Ensure the grid container takes the full width available */
+  max-width: 1200px; /* Optional: Set a max-width for better layout control */
+}
+
+/* Ensure the first card in each row gets a left border */
+.pollList .pollCard:first-child {
+  border-left: 1px dotted #FFFFFF; /* Apply left border only to the first card in each row */
 }
