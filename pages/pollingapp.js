@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import PollCard from "../components/ui/PollCard";
+import Button from "../components/ui/Button";
+import Toast from "../components/ui/Toast";
 import pollsData from "../data/polls.json";
+import EmbedDialog from "../components/ui/EmbedDialog";
+import Dialog from "../components/ui/Dialog"; // Import Dialog component
 import styles from "../styles/PollingApp.module.css";
 
 const PollingApp = () => {
@@ -9,17 +14,29 @@ const PollingApp = () => {
   const [polls] = useState(pollsData);
   const [fadingPollId, setFadingPollId] = useState(null);
   const [activePoll, setActivePoll] = useState(null);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setToastType] = useState("info");
+  const [selectedPollId, setSelectedPollId] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    // Prevent dialog from blinking by adding a delay before switching poll views
+    if (activePoll && selectedPollId !== activePoll.id) {
+      setTimeout(() => {
+        setActivePoll(null); // reset activePoll to prevent flickering
+      }, 300); // delay for smoother transition
+    }
+  }, [selectedPollId, activePoll]);
 
   if (status === "loading") return <div>Loading...</div>;
   if (!session) return <div>Please sign in to vote.</div>;
 
   const handleDialogOpen = (poll) => {
     setFadingPollId(poll.id);
-    // Wait 3 seconds for the card content to fade out before opening modal
     setTimeout(() => {
       setActivePoll(poll);
       setFadingPollId(null);
-    }, 3000);
+    }, 300);
   };
 
   const handleCancel = () => {
@@ -27,40 +44,64 @@ const PollingApp = () => {
   };
 
   const handleSaveVote = () => {
-    // Insert save logic if needed; then close the modal.
     setActivePoll(null);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/logout', {
+        method: 'POST',
+      });
+      setToastMessage('Successfully logged out!');
+      setToastType('success');
+      setTimeout(() => {
+        router.push('/signin');
+      }, 2000);
+    } catch (error) {
+      setToastMessage('Failed to log out');
+      setToastType('error');
+    }
+  };
+
+  const handleShare = (pollId) => {
+    setSelectedPollId(pollId);
+  };
+
+  const closeEmbedDialog = () => {
+    setSelectedPollId(null);
   };
 
   return (
     <div className={styles.pollingAppContainer}>
+      <div className={styles.header}>
+        <Button onClick={handleLogout} className="bg-red-600 text-white rounded-[2px] p-2">
+          Log Out
+        </Button>
+      </div>
+
+      {toastMessage && (
+        <Toast message={toastMessage} type={toastType} onClose={() => setToastMessage("")} />
+      )}
+
       <div className={`${styles.pollList} ${activePoll ? styles.blurBackground : ""}`}>
         {polls.map((poll, index) => (
           <PollCard
             key={poll.id}
             poll={poll}
             userId={session.user.id}
-            onOpenDialog={handleDialogOpen}
+            onOpenDialog={handleDialogOpen} // Ensure this is passed
+            onShare={handleShare}
             index={index}
             fadeOut={fadingPollId === poll.id}
           />
         ))}
       </div>
 
-      {activePoll && (
-        <div className={styles.modal}>
-          <div className={styles.modalContent}>
-            <div className={styles.modalInner}>
-              {/* Render the active poll card in modal mode */}
-              <PollCard
-                poll={activePoll}
-                userId={session.user.id}
-                isActive={true}
-                onCancel={handleCancel}
-                onSave={handleSaveVote}
-              />
-            </div>
-          </div>
-        </div>
+      {/* Fullscreen Dialog is separate from PollCard */}
+      {selectedPollId && (
+        <Dialog onClose={closeEmbedDialog}>
+          <EmbedDialog pollId={selectedPollId} onClose={closeEmbedDialog} />
+        </Dialog>
       )}
     </div>
   );
