@@ -148,18 +148,5 @@
     ],
     "creatorId": "63006412-cbad-4c57-839f-2b040495365a",
     "notarizedSignatureRequired": true
-  },
-  {
-    "id": "823285d4-658c-4178-8e84-5b399a510835",
-    "title": "test 13",
-    "description": "test 13",
-    "closingDate": "2025-02-21T07:36",
-    "options": [
-      "1",
-      "2",
-      "3"
-    ],
-    "creatorId": "63006412-cbad-4c57-839f-2b040495365a",
-    "notarizedSignatureRequired": true
   }
 ]
