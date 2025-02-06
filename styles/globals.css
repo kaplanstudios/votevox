@@ -2,6 +2,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
   /* Reset margin and padding for all elements */
   * {
@@ -10,6 +11,7 @@
     box-sizing: border-box;
   }
 }
+
 *,
 *::before,
 *::after {
@@ -22,6 +24,7 @@ body {
   margin: 0;
   background-color: #000000; /* Or use Tailwind class for bg-black if needed */
 }
+
 /* General Styles */
 html, body {
   font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
@@ -120,4 +123,54 @@ textarea {
   width: 100%;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+/* Global Modal Styles */
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  backdrop-filter: blur(10px); /* Apply blur effect */
+  z-index: 9999; /* Ensure it's above all other content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.modalContent {
+  background-color: #000000;
+  color: #FFFFFF;
+  padding: 32px;
+  border-radius: 12px;
+  width: 400px;
+  height: auto;
+  z-index: 10000; /* Ensure it's above the backdrop */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Optional loading state for modals */
+.modalLoading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.8); /* Slightly opaque background */
+  border-radius: 8px;
+  padding: 24px;
+  font-size: 18px;
+}
+
+/* Ensuring the modal remains centered */
+.modalContent,
+.modalBackdrop {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
 }

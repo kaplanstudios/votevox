@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router"; // Added useRouter import
+import { useRouter } from "next/router";
 import PollCard from "../components/ui/PollCard";
 import Button from "../components/ui/Button";
 import Toast from "../components/ui/Toast";
-import CardDialog from "../components/ui/CardDialog";
 import Dialog from "../components/ui/Dialog";
-import CreatePollDialog from "../components/ui/CreatePollDialog"; // Import the new component for creating a poll
+import CreatePollDialog from "../components/ui/CreatePollDialog";
+import ViewAndVoteDialog from "../components/ui/ViewAndVoteDialog"; // Use the ViewAndVoteDialog
 import pollsData from "../data/polls.json";
-import styles from "../styles/PollingApp.module.css"; // Corrected import path
-import cardDialogStyles from "../styles/components/ui/CardDialog.module.css"; // Corrected import path
+import styles from "../styles/PollingApp.module.css";
 
 const PollingApp = () => {
   const { data: session, status } = useSession();
@@ -17,15 +16,21 @@ const PollingApp = () => {
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("info");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isCreatePollDialogOpen, setIsCreatePollDialogOpen] = useState(false); // State for Create Poll Dialog
+  const [isCreatePollDialogOpen, setIsCreatePollDialogOpen] = useState(false);
   const [selectedPoll, setSelectedPoll] = useState(null);
-  const router = useRouter(); // Initialize useRouter
+  const router = useRouter();
 
+  // Ensure user is logged in
   useEffect(() => {
     if (status === "loading") return;
-    if (!session) router.push("/signin");
+    if (!session) {
+      setToastMessage("You must be signed in to access the app.");
+      setToastType("error");
+      router.push("/signin");
+    }
   }, [status, session, router]);
 
+  // Fetch polls with error handling
   useEffect(() => {
     const fetchPolls = async () => {
       try {
@@ -45,9 +50,10 @@ const PollingApp = () => {
   }, []);
 
   useEffect(() => {
-    console.log("Re-rendering due to state update:", { isDialogOpen, selectedPoll });
+    console.log("State update:", { isDialogOpen, selectedPoll });
   }, [isDialogOpen, selectedPoll]);
 
+  // Handle vote action
   const handleVote = async (pollId, optionId) => {
     try {
       console.log(`Submitting vote for poll ${pollId}, option ${optionId}`);
@@ -56,9 +62,7 @@ const PollingApp = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: session?.user?.id, optionId }),
       });
-
       if (!response.ok) throw new Error("Failed to vote");
-
       setToastMessage("Your vote has been cast successfully!");
       setToastType("success");
     } catch (error) {
@@ -68,6 +72,7 @@ const PollingApp = () => {
     }
   };
 
+  // Handle logout
   const handleLogout = async () => {
     try {
       console.log("Logging out user...");
@@ -82,23 +87,28 @@ const PollingApp = () => {
     }
   };
 
+  // Open the "View and Vote" dialog
   const handleViewVote = (poll) => {
-    console.log("Opening dialog for poll:", poll);
+    console.log("Opening View and Vote dialog for poll:", poll);
     setSelectedPoll(poll);
     setIsDialogOpen(true);
   };
 
+  // Close the dialog
   const closeDialog = () => {
     console.log("Closing dialog");
     setSelectedPoll(null);
     setIsDialogOpen(false);
   };
 
+  // Open Create Poll dialog
   const openCreatePollDialog = () => {
+    console.log("Opening Create Poll dialog");
     setIsCreatePollDialogOpen(true);
   };
 
   const closeCreatePollDialog = () => {
+    console.log("Closing Create Poll dialog");
     setIsCreatePollDialogOpen(false);
   };
 
@@ -111,13 +121,14 @@ const PollingApp = () => {
         <Button onClick={handleLogout} className="bg-red-600 text-white rounded-[2px] p-2">
           Log Out
         </Button>
-        {/* Add Create Poll button */}
         <Button onClick={openCreatePollDialog} className="bg-blue-600 text-white rounded-[2px] p-2">
           Create Poll
         </Button>
       </div>
 
-      {toastMessage && <Toast message={toastMessage} type={toastType} onClose={() => setToastMessage("")} />}
+      {toastMessage && (
+        <Toast message={toastMessage} type={toastType} onClose={() => setToastMessage("")} />
+      )}
 
       <div className={styles.pollList}>
         {polls.map((poll) => (
@@ -132,9 +143,15 @@ const PollingApp = () => {
         ))}
       </div>
 
+      {/* View and Vote Dialog rendered by the parent */}
       {isDialogOpen && selectedPoll && (
         <Dialog isOpen={isDialogOpen} onClose={closeDialog}>
-          <CardDialog poll={selectedPoll} onClose={closeDialog} onVote={handleVote} className={cardDialogStyles.dialogContent} />
+          <ViewAndVoteDialog
+            poll={selectedPoll}
+            userId={session?.user?.id}
+            onClose={closeDialog}
+            onVote={handleVote}
+          />
         </Dialog>
       )}
 

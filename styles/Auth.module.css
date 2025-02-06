@@ -1,69 +1,63 @@
-.container {
+/* Example styles for ViewAndVoteDialog.module.css */
+.dialog {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: black;
 }
 
-.inputGroup {
-  margin-bottom: 16px;
+.dialogContent {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 100%;
 }
 
-.inputGroup input {
-  width: 160px;
-  height: 36px;
-  padding: 6px;
-  background-color: black;
-  color: white;
-  border: 1px solid gray;
-  font-size: 15px; /* Text size 15px */
+.title {
+  font-size: 24px;
+  margin-bottom: 15px;
 }
 
-.inputGroup input:focus {
-  border-color: white;
+.description {
+  margin-bottom: 15px;
 }
 
-.signin-button {
-  margin-top: 10px;
-  width: 160px;
+.options {
+  margin-bottom: 20px;
+}
+
+.option {
+  margin-bottom: 10px;
+}
+
+.option input[type="radio"] {
+  margin-right: 10px;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dialogButton {
   padding: 10px;
-  background-color: black;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.bgGreen {
+  background-color: #4caf50;
   color: white;
-  border: 1px solid gray;
-  text-align: center;
 }
 
-.signin-button:hover {
-  background-color: #333;
-}
-
-/* Define the fade-out effect */
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-/* Define the move-to-center animation */
-@keyframes moveToCenter {
-  from {
-    transform: translateX(-50%) translateY(-50%);
-  }
-  to {
-    transform: translateX(-50%) translateY(-50%) scale(1);
-  }
-}
-
-/* Apply fade out to the elements when triggered */
-.fadeOut {
-  animation: fadeOut 1s forwards;
-}
-
-/* Apply move-to-center animation */
-.centerHeader {
-  animation: moveToCenter 1s forwards;
+.bgGray {
+  background-color: #9e9e9e;
+  color: white;
 }

@@ -7,7 +7,10 @@ const Dialog = ({ isOpen, onClose, children }) => {
   }, [isOpen]);
 
   return (
-    <div className={`${styles.dialogBackdrop} ${isOpen ? styles.show : styles.hide}`} onClick={onClose}>
+    <div
+      className={`${styles.dialogBackdrop} ${isOpen ? styles.show : styles.hide}`}
+      onClick={onClose}
+    >
       <div className={styles.dialogBox} onClick={(e) => e.stopPropagation()}>
         <button className={styles.closeButton} onClick={onClose}>
           &times;
