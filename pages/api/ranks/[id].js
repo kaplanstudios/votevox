@@ -9,12 +9,12 @@ const handler = async (req, res) => {
   if (req.method === 'GET') {
     try {
       const data = JSON.parse(fs.readFileSync(ranksFilePath, 'utf-8'));
-      const poll = data.find(p => p.pollId === pollId);
+      const poll = data.find((p) => p.pollId === pollId);
       if (!poll) {
         return res.status(404).json({ error: 'Poll not found' });
       }
 
-      // Calculate upvotes and downvotes based on user votes
+      // Calculate counts from the votes array.
       const upvotes = poll.votes.filter(vote => vote.vote === 1).length;
       const downvotes = poll.votes.filter(vote => vote.vote === -1).length;
 
@@ -26,29 +26,33 @@ const handler = async (req, res) => {
   } else if (req.method === 'POST') {
     try {
       const { userId, vote } = req.body;
+      // Acceptable vote values: 1, -1 or null (to remove vote)
       if (vote !== 1 && vote !== -1 && vote !== null) {
         return res.status(400).json({ error: 'Invalid vote value' });
       }
 
       const data = JSON.parse(fs.readFileSync(ranksFilePath, 'utf-8'));
-      let poll = data.find(p => p.pollId === pollId);
+      let poll = data.find((p) => p.pollId === pollId);
 
       if (!poll) {
+        // If no poll entry exists yet, create one.
         poll = { pollId, votes: [] };
         data.push(poll);
       }
 
-      // Update or remove the user's vote
+      // Find if the user has already voted.
       const existingVoteIndex = poll.votes.findIndex(v => v.userId === userId);
+
       if (existingVoteIndex > -1) {
-        // Update existing vote
-        if (vote === null) {
-          poll.votes.splice(existingVoteIndex, 1); // Remove vote
+        // If the same vote is clicked, remove it (toggle off).
+        if (poll.votes[existingVoteIndex].vote === vote) {
+          poll.votes.splice(existingVoteIndex, 1);
         } else {
-          poll.votes[existingVoteIndex].vote = vote; // Update vote
+          // Otherwise, update the vote.
+          poll.votes[existingVoteIndex].vote = vote;
         }
       } else if (vote !== null) {
-        // Add new vote
+        // No existing vote: add a new vote.
         poll.votes.push({ userId, vote });
       }
 
