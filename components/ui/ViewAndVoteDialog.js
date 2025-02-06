@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useSession } from "next-auth/react";
 import styles from "../../styles/components/ui/ViewAndVoteDialog.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
 import SignatureCanvas from "react-signature-canvas";
 
-const ViewAndVoteDialog = ({ poll, onClose, onVote }) => {
-  const { data: session, status } = useSession();
+const ViewAndVoteDialog = ({ poll, userId, onClose, onVote }) => {
   const [userVote, setUserVote] = useState(null);
   const [upvotes, setUpvotes] = useState(0);
   const [downvotes, setDownvotes] = useState(0);
@@ -14,46 +12,41 @@ const ViewAndVoteDialog = ({ poll, onClose, onVote }) => {
   const sigCanvasRef = useRef(null);
 
   useEffect(() => {
-    if (status === "authenticated") {
-      const fetchVotes = async () => {
-        try {
-          const res = await fetch(`/api/polls/${poll.id}`);
-          const data = await res.json();
-          if (data.votes) {
-            const upvoteCount = data.votes.filter(vote => vote.vote === 1).length;
-            const downvoteCount = data.votes.filter(vote => vote.vote === -1).length;
-            setUpvotes(upvoteCount);
-            setDownvotes(downvoteCount);
-            const found = data.votes.find(vote => vote.userId === session.user.id);
-            setUserVote(found ? found.vote : null);
-          }
-        } catch (error) {
-          console.error("Error fetching votes:", error);
+    const fetchVotes = async () => {
+      try {
+        const res = await fetch(`/api/polls/${poll.id}`);
+        const data = await res.json();
+        if (data.votes) {
+          const upvoteCount = data.votes.filter(vote => vote.vote === 1).length;
+          const downvoteCount = data.votes.filter(vote => vote.vote === -1).length;
+          setUpvotes(upvoteCount);
+          setDownvotes(downvoteCount);
+          const found = data.votes.find(vote => vote.userId === userId);
+          setUserVote(found ? found.vote : null);
         }
-      };
-      fetchVotes();
-    }
-  }, [poll.id, session, status]);
+      } catch (error) {
+        console.error("Error fetching votes:", error);
+      }
+    };
+    fetchVotes();
+  }, [poll.id, userId]);
 
   const handleVoteChange = (optionIndex) => {
     setUserVote(optionIndex);
   };
 
   const saveVote = async () => {
-    if (!userVote) {
-      alert("Please select an option before saving your vote.");
-      return;
+    let signature = null;
+
+    // Check if notarized signature is required and capture it
+    if (poll.notarizedSignatureRequired && sigCanvasRef.current && !sigCanvasRef.current.isEmpty()) {
+      signature = sigCanvasRef.current.toDataURL();
     }
 
-    const signature = poll.notarizedSignatureRequired &&
-      sigCanvasRef.current &&
-      !sigCanvasRef.current.isEmpty()
-      ? sigCanvasRef.current.toDataURL()
-      : null;
-
+    // If signature is required, save it
     let signaturePath = null;
     if (poll.notarizedSignatureRequired && signature) {
-      const uuid = `${poll.id}-${session.user.id}`;
+      const uuid = `${poll.id}-${userId}`;
       signaturePath = await saveSignature(signature, uuid);
       if (!signaturePath) {
         alert("Failed to save signature.");
@@ -61,12 +54,13 @@ const ViewAndVoteDialog = ({ poll, onClose, onVote }) => {
       }
     }
 
+    // Vote data to be sent to the backend
     const voteData = {
       voteId: `${Date.now()}-${Math.random()}`,
       pollId: poll.id,
-      userId: session.user.id, // Using session user ID here
+      userId,
       vote: userVote,
-      signature: signaturePath,
+      signature,
     };
 
     try {
@@ -77,7 +71,7 @@ const ViewAndVoteDialog = ({ poll, onClose, onVote }) => {
       });
       if (response.ok) {
         alert("Vote saved successfully!");
-        onClose();
+        onClose();  // Close dialog after successful vote submission
       } else {
         alert("Failed to save vote.");
       }
@@ -88,8 +82,8 @@ const ViewAndVoteDialog = ({ poll, onClose, onVote }) => {
   };
 
   const saveSignature = async (signature, uuid) => {
-    // Implement logic to save signature if necessary, or return signature path
-    return "/path/to/signature"; // Example placeholder
+    // Implement your logic to save the signature, or return the signature path
+    return "/path/to/signature";  // Placeholder for the actual path
   };
 
   return (

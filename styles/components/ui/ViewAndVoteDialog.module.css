@@ -45,15 +45,15 @@
   
   .dialogButton {
     font-size: 16px;
-    padding: 12px 20px; /* Larger padding for easier click */
+    padding: 10px 20px;
     width: 48%;
     color: white;
     border: none;
-    border-radius: 6px; /* Consistent rounded corners */
-    height: 45px;
-}
-
-.dialogButton:hover {
+    border-radius: 5px;
+    height: 40px;
+  }
+  
+  .dialogButton:hover {
     opacity: 0.9;
   }
   
