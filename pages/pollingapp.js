@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router"; // Added useRouter import
 import PollCard from "../components/ui/PollCard";
 import Button from "../components/ui/Button";
 import Toast from "../components/ui/Toast";
@@ -18,7 +19,7 @@ const PollingApp = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isCreatePollDialogOpen, setIsCreatePollDialogOpen] = useState(false); // State for Create Poll Dialog
   const [selectedPoll, setSelectedPoll] = useState(null);
-  const router = useRouter();
+  const router = useRouter(); // Initialize useRouter
 
   useEffect(() => {
     if (status === "loading") return;
@@ -84,10 +85,7 @@ const PollingApp = () => {
   const handleViewVote = (poll) => {
     console.log("Opening dialog for poll:", poll);
     setSelectedPoll(poll);
-    setIsDialogOpen((prev) => {
-      console.log("Previous state:", prev);
-      return true;
-    });
+    setIsDialogOpen(true);
   };
 
   const closeDialog = () => {
