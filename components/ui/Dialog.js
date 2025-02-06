@@ -1,13 +1,19 @@
-import React from 'react';
-import styles from '../../styles/components/ui/Dialog.module.css'; // Make sure to add a custom class for styling
+// components/ui/Dialog.js
 
-const Dialog = ({ children, onClose }) => {
+import React from "react";
+import styles from "../../styles/components/ui/Dialog.module.css"; // Assuming you have some styles for the dialog
+
+const Dialog = ({ isOpen, onClose, children }) => {
+  if (!isOpen) return null; // Don't render the dialog if it's not open
+
   return (
     <>
-      <div className={styles.overlay} onClick={onClose} /> {/* Optional overlay to close the dialog */}
-      <div className={styles.dialog}>
-        <button className={styles.closeButton} onClick={onClose}>X</button>
-        {children} {/* Render the child dialog component */}
+      <div className={styles.overlay} onClick={onClose} />
+      <div className={styles.dialogContainer}>
+        <button onClick={onClose} className={styles.closeButton}>
+          Close
+        </button>
+        {children} {/* Render passed children */}
       </div>
     </>
   );

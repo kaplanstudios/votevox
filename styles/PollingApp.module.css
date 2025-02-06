@@ -1,93 +1,148 @@
 .pollingAppContainer {
   display: flex;
-  justify-content: center;
-  background: #000000;
-  overflow: hidden;
-  padding: 0 16px;
-  position: relative;
-}
-
-.pollList {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 320px);
-  grid-auto-rows: 300px;
-  grid-gap: 0;
-  background: #000000;
-  justify-content: center;
-  width: 100%;
-  max-width: 1200px;
-}
-
-.pollList .pollCard:first-child {
-  border-left: 1px dotted #FFFFFF;
-}
-
-/* When a modal is active, blur the background */
-.blurBackground {
-  filter: blur(8px);
-  pointer-events: none;
-}
-
-/* Modal overlay */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 999;
-}
-
-/* Modal content container */
-.modalContent {
-  position: relative;
-  background: #000;
+  justify-content: flex-start;
   padding: 20px;
-  border-radius: 8px;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  z-index: 1000;
+  background-color: #f4f7fa;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
-/* Inner modal content that fades in */
-.modalInner {
-  opacity: 0;
-  animation: fadeInModal 3s forwards;
-}
-
-@keyframes fadeInModal {
-  to {
-    opacity: 1;
-  }
-}
-
-/* Extra modal UI styles (if needed elsewhere) */
-.signatureCanvas {
+.pollsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
   width: 100%;
-  height: 150px;
-  background: #fff;
-  border: 2px dashed #0000FF;
+  margin-top: 30px;
+  padding-bottom: 40px;
 }
 
-.modalButtons {
-  display: flex;
-  justify-content: space-between;
+.pollCardWrapper {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.saveVoteButton,
-.cancelButton {
-  padding: 10px 16px;
-  border-radius: 4px;
+.pollCardWrapper:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.createPollButton {
+  margin-top: 30px;
+  padding: 12px 24px;
+  background-color: #4caf50;
+  color: white;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.createPollButton:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+.pollTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+  text-transform: capitalize;
+}
+
+.pollDescription {
+  font-size: 16px;
+  color: #777;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.viewVoteButton {
   background-color: #007bff;
   color: white;
+  padding: 12px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.saveVoteButton:hover,
-.cancelButton:hover {
+.viewVoteButton:hover {
   background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.voteContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  align-items: center;
+}
+
+.voteButton {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.voteButton:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+.voteCount {
+  font-size: 18px;
+  font-weight: 500;
+  color: #444;
+}
+
+.closingDate {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #999;
+  text-align: right;
+}
+
+.error {
+  color: #d9534f;
+  font-size: 14px;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.toast {
+  padding: 15px;
+  font-size: 16px;
+  color: #fff;
+  border-radius: 8px;
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  transition: opacity 0.3s ease;
+}
+
+.toast.success {
+  background-color: #5cb85c;
+}
+
+.toast.error {
+  background-color: #d9534f;
+}
+
+.toast.info {
+  background-color: #5bc0de;
 }

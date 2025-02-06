@@ -1,46 +1,133 @@
-/* Dialog content styling for ViewAndVoteDialog */
-
-.dialogContent {
+/* Dialog container */
+.overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 20px;
+  }
+  
+  /* Content of the dialog */
+  .dialogContainer {
     background-color: white;
     padding: 20px;
+    max-width: 500px;
     width: 100%;
-    max-width: 700px; /* Increased width for better user experience */
     border-radius: 10px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     gap: 15px;
-    max-height: 90vh;
-    overflow-y: auto;
   }
   
+  /* Title of the dialog */
   .title {
     font-size: 24px;
     font-weight: bold;
+    margin-bottom: 10px;
     color: black;
   }
   
-  .options {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .option {
+  /* Input group for title, description, and options */
+  .inputGroup {
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: flex-start;
+    margin-bottom: 10px;
   }
   
-  .signatureContainer {
+  .label {
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    text-align: left;
+    margin-right: 10px;
+    width: 30%;
+  }
+  
+  /* Poll text and option styling */
+  .pollText {
+    font-size: 16px;
+    color: #444;
+    line-height: 1.6;
+  }
+  
+  /* Option buttons */
+/* Option list container (display options vertically) */
+.optionList {
+    display: flex;
+    flex-direction: column; /* Align options vertically */
+    gap: 10px; /* Space between each option */
+    width: 100%;
+  }
+  
+  /* Individual option button styling */
+  .optionButton {
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%; /* Ensure buttons take up full width of container */
+    text-align: left; /* Align text to the left */
+    cursor: pointer;
+  }
+  
+  /* Styling for selected option */
+  .selected {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  
+  /* Signature section */
+  .signatureSection {
+    display: flex;
+    flex-direction: column;
     margin-top: 20px;
-    text-align: center;
   }
   
+  .signatureCanvasContainer {
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .clearButton {
+    background-color: #dc3545;
+    color: white;
+    font-size: 14px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .clearButton:hover {
+    background-color: #c82333;
+  }
+  
+  /* Button group */
   .buttonGroup {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+  }
+  
+  .bgGreen {
+    background-color: green;
+  }
+  
+  .bgGray {
+    background-color: gray;
   }
   
   .dialogButton {
@@ -55,13 +142,5 @@
   
   .dialogButton:hover {
     opacity: 0.9;
-  }
-  
-  .bgGreen {
-    background-color: green;
-  }
-  
-  .bgGray {
-    background-color: gray;
   }
   

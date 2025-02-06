@@ -15,48 +15,20 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Missing signature or uuid' });
       }
 
+      // Define the file path using the provided UUID
       const filePath = path.join(SIGNATURES_DIR, `${uuid}.png`);
       const base64Data = signature.replace(/^data:image\/png;base64,/, '');
 
-      await fs.mkdir(SIGNATURES_DIR, { recursive: true }); // Ensure the directory exists
+      // Ensure the directory exists
+      await fs.mkdir(SIGNATURES_DIR, { recursive: true });
       await fs.writeFile(filePath, base64Data, 'base64');
 
       console.log(`Signature saved successfully at ${filePath}`);
-      return res.status(201).json({ message: 'Signature saved successfully' });
+      return res.status(201).json({ message: 'Signature saved successfully', signatureUrl: `/data/signatures/${uuid}.png` });
 
     } catch (error) {
       console.error('Error processing signature upload:', error);
       return res.status(500).json({ error: 'Failed to save signature' });
-    }
-  } else if (req.method === 'GET') {
-    console.log('Received GET request to /api/signature');
-
-    try {
-      const { uuid } = req.query;
-
-      if (!uuid) {
-        console.error('Error: Missing uuid in request query');
-        return res.status(400).json({ error: 'Missing uuid' });
-      }
-
-      const filePath = path.join(SIGNATURES_DIR, `${uuid}.png`);
-
-      try {
-        await fs.access(filePath);
-      } catch {
-        console.error('Signature not found:', filePath);
-        return res.status(404).json({ error: 'Signature not found' });
-      }
-
-      const base64Data = await fs.readFile(filePath, 'base64');
-      const imageUrl = `data:image/png;base64,${base64Data}`;
-
-      console.log(`Signature fetched successfully from ${filePath}`);
-      return res.status(200).json({ imageUrl });
-
-    } catch (error) {
-      console.error('Error fetching signature:', error);
-      return res.status(500).json({ error: 'Failed to fetch signature' });
     }
   } else {
     console.error('Error: Method not allowed');

@@ -1,55 +1,56 @@
-import fs from 'fs/promises';
+import fs from 'fs';
 import path from 'path';
-import { v4 as uuidv4 } from 'uuid';
-import votesData from '../../../../data/votes.json';
+import pollsData from '../../../../data/polls.json';
+import votesData from '../../../../data/votes.json';  // Ensure you import votes.json to save vote data
 
-const SIGNATURES_DIR = path.join(process.cwd(), 'data', 'signatures');
-const VOTES_FILE_PATH = path.join(process.cwd(), 'data', 'votes.json');
+const votesFilePath = path.join(process.cwd(), 'data', 'votes.json'); // Define path to votes.json
 
-export default async function handler(req, res) {
-  const { pollId } = req.query;
+export default function handler(req, res) {
+    const { pollId } = req.query;
+    const { voteId, userId, selectedOption, signaturePath } = req.body;
 
-  if (req.method === 'POST') {
-    try {
-      const { selectedOption, signature, userId } = req.body;
+    if (req.method === 'POST') {
+        if (!pollId) {
+            return res.status(400).json({ error: 'Poll ID is required' });
+        }
 
-      if (!selectedOption || !pollId || !userId) {
-        return res.status(400).json({ error: 'Poll ID, selected option, or user ID missing' });
-      }
+        // Find the poll based on pollId
+        const poll = pollsData.find((p) => p.id === pollId);
+        
+        if (!poll) {
+            return res.status(404).json({ error: 'Poll not found' });
+        }
 
-      // Find or initialize poll votes
-      let existingVotes = votesData.find(vote => vote.pollId === pollId);
-      if (!existingVotes) {
-        existingVotes = { pollId, votes: [] };
-        votesData.push(existingVotes);
-      }
+        // Find the user's vote in the existing votes array
+        let userVote = votesData.find((vote) => vote.pollId === pollId && vote.userId === userId);
 
-      // Save signature if provided
-      let savedSignaturePath = null;
-      if (signature) {
-        const signatureId = uuidv4();
-        const signatureFilePath = path.join(SIGNATURES_DIR, `${signatureId}.png`);
-        const base64Data = signature.replace(/^data:image\/png;base64,/, '');
+        if (userVote) {
+            // Update existing vote if the user has already voted
+            userVote.selectedOption = selectedOption;
+            userVote.signaturePath = signaturePath;
+        } else {
+            // Add new vote if the user has not voted yet
+            votesData.push({
+                voteId,
+                pollId,
+                userId,
+                selectedOption,
+                signaturePath,
+            });
+        }
 
-        await fs.mkdir(SIGNATURES_DIR, { recursive: true });
-        await fs.writeFile(signatureFilePath, base64Data, 'base64');
-        savedSignaturePath = `/data/signatures/${signatureId}.png`;
-      }
+        // Save the updated votes data back to votes.json
+        try {
+            // Write updated votes data to the votes.json file
+            fs.writeFileSync(votesFilePath, JSON.stringify(votesData, null, 2));
+            return res.status(200).json({ message: 'Vote successfully submitted' });
+        } catch (error) {
+            console.error("Error saving vote:", error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
 
-      // Add new vote
-      const newVote = { userId, selectedOption, signaturePath: savedSignaturePath };
-      existingVotes.votes.push(newVote);
-
-      // Save updated votes data
-      await fs.writeFile(VOTES_FILE_PATH, JSON.stringify(votesData, null, 2));
-
-      return res.status(200).json({ message: 'Vote submitted successfully' });
-    } catch (error) {
-      console.error('Error submitting vote:', error);
-      return res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+        res.setHeader('Allow', ['POST']);
+        res.status(405).end(`Method ${req.method} Not Allowed`);
     }
-  } else {
-    res.setHeader('Allow', ['POST']);
-    return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
-  }
 }
