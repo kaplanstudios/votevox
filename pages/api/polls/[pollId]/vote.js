@@ -1,35 +1,55 @@
-import pollsData from "../../../../data/polls.json"; // Updated path to polls.json
+import fs from 'fs/promises';
+import path from 'path';
+import { v4 as uuidv4 } from 'uuid';
+import votesData from '../../../../data/votes.json';
 
-export default function handler(req, res) {
-  const { pollId } = req.query; // Get the pollId from the URL
+const SIGNATURES_DIR = path.join(process.cwd(), 'data', 'signatures');
+const VOTES_FILE_PATH = path.join(process.cwd(), 'data', 'votes.json');
 
-  // Ensure the correct method is used
-  if (req.method === "POST") {
-    const { userId, optionId } = req.body; // Get the userId and optionId from the request body
+export default async function handler(req, res) {
+  const { pollId } = req.query;
 
-    // Find the poll by pollId
-    const poll = pollsData.find((p) => p.id === pollId);
+  if (req.method === 'POST') {
+    try {
+      const { selectedOption, signature, userId } = req.body;
 
-    if (!poll) {
-      return res.status(404).json({ message: "Poll not found" });
+      if (!selectedOption || !pollId || !userId) {
+        return res.status(400).json({ error: 'Poll ID, selected option, or user ID missing' });
+      }
+
+      // Find or initialize poll votes
+      let existingVotes = votesData.find(vote => vote.pollId === pollId);
+      if (!existingVotes) {
+        existingVotes = { pollId, votes: [] };
+        votesData.push(existingVotes);
+      }
+
+      // Save signature if provided
+      let savedSignaturePath = null;
+      if (signature) {
+        const signatureId = uuidv4();
+        const signatureFilePath = path.join(SIGNATURES_DIR, `${signatureId}.png`);
+        const base64Data = signature.replace(/^data:image\/png;base64,/, '');
+
+        await fs.mkdir(SIGNATURES_DIR, { recursive: true });
+        await fs.writeFile(signatureFilePath, base64Data, 'base64');
+        savedSignaturePath = `/data/signatures/${signatureId}.png`;
+      }
+
+      // Add new vote
+      const newVote = { userId, selectedOption, signaturePath: savedSignaturePath };
+      existingVotes.votes.push(newVote);
+
+      // Save updated votes data
+      await fs.writeFile(VOTES_FILE_PATH, JSON.stringify(votesData, null, 2));
+
+      return res.status(200).json({ message: 'Vote submitted successfully' });
+    } catch (error) {
+      console.error('Error submitting vote:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
     }
-
-    // Find the option by optionId within the poll
-    const option = poll.options.find((opt) => opt.id === optionId);
-
-    if (!option) {
-      return res.status(404).json({ message: "Option not found" });
-    }
-
-    // Add the vote for this option (assuming you're storing votes as userId)
-    option.votes.push({
-      userId,
-      vote: 1, // Assume the vote is 1 (positive)
-    });
-
-    // Return the updated poll or a success message
-    return res.status(200).json({ message: "Vote submitted successfully" });
   } else {
-    res.status(405).json({ message: "Method Not Allowed" }); // Only POST requests are allowed
+    res.setHeader('Allow', ['POST']);
+    return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
   }
 }

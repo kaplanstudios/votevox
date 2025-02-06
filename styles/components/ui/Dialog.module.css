@@ -2,34 +2,26 @@
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px); /* Apply background blur */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10000; /* Very high z-index to appear on top */
-  padding: 20px;
-}
-
-.show {
-  display: flex;
-}
-
-.hide {
-  display: none;
+  z-index: 1000;
 }
 
 .dialogBox {
-  background-color: white;
+  background: white;
   padding: 20px;
-  width: 90%;
-  max-width: 800px;
-  border-radius: 10px;
-  position: relative;
-  max-height: 90vh;
-  overflow-y: auto;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+}
+
+.dialogContent {
+  margin-top: 20px;
 }
 
 .closeButton {
@@ -40,5 +32,4 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: black;
 }

@@ -1,3 +1,5 @@
+// pages/PollingApp.js
+
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -6,7 +8,7 @@ import Button from "../components/ui/Button";
 import Toast from "../components/ui/Toast";
 import Dialog from "../components/ui/Dialog";
 import CreatePollDialog from "../components/ui/CreatePollDialog";
-import ViewAndVoteDialog from "../components/ui/ViewAndVoteDialog"; // Use the ViewAndVoteDialog
+import ViewAndVoteDialog from "../components/ui/ViewAndVoteDialog";
 import pollsData from "../data/polls.json";
 import styles from "../styles/PollingApp.module.css";
 
@@ -20,7 +22,7 @@ const PollingApp = () => {
   const [selectedPoll, setSelectedPoll] = useState(null);
   const router = useRouter();
 
-  // Ensure user is logged in
+  // Check session status and redirect if not logged in
   useEffect(() => {
     if (status === "loading") return;
     if (!session) {
@@ -30,16 +32,14 @@ const PollingApp = () => {
     }
   }, [status, session, router]);
 
-  // Fetch polls with error handling
+  // Fetch polls from API
   useEffect(() => {
     const fetchPolls = async () => {
       try {
-        console.log("Fetching polls from API...");
         const response = await fetch("/api/polls");
         if (!response.ok) throw new Error("Failed to fetch polls");
         const data = await response.json();
         setPolls(data);
-        console.log("Polls loaded:", data);
       } catch (error) {
         console.error("Error fetching polls:", error);
         setToastMessage("Error loading polls.");
@@ -49,33 +49,34 @@ const PollingApp = () => {
     fetchPolls();
   }, []);
 
-  useEffect(() => {
-    console.log("State update:", { isDialogOpen, selectedPoll });
-  }, [isDialogOpen, selectedPoll]);
+  // Handle vote submission
+  const handleVote = async (pollId, selectedOption) => {
+    if (!pollId || !selectedOption) {
+      console.error("Error: pollId or selected option is missing!");
+      return;
+    }
 
-  // Handle vote action
-  const handleVote = async (pollId, optionId) => {
+    console.log("Poll ID:", pollId);
+    console.log("Selected Option:", selectedOption);
+
+    const voteData = { pollId, selectedOption };
+
     try {
-      console.log(`Submitting vote for poll ${pollId}, option ${optionId}`);
       const response = await fetch(`/api/polls/${pollId}/vote`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: session?.user?.id, optionId }),
+        body: JSON.stringify(voteData),
       });
-      if (!response.ok) throw new Error("Failed to vote");
-      setToastMessage("Your vote has been cast successfully!");
-      setToastType("success");
+      if (!response.ok) throw new Error("Failed to submit vote");
+      console.log("Vote successfully submitted");
     } catch (error) {
       console.error("Error submitting vote:", error);
-      setToastMessage("Error submitting vote.");
-      setToastType("error");
     }
   };
 
-  // Handle logout
+  // Logout handler
   const handleLogout = async () => {
     try {
-      console.log("Logging out user...");
       await fetch("/api/logout", { method: "POST" });
       setToastMessage("Successfully logged out!");
       setToastType("success");
@@ -87,21 +88,21 @@ const PollingApp = () => {
     }
   };
 
-  // Open the "View and Vote" dialog
+  // Open the "View and Vote" dialog for a selected poll
   const handleViewVote = (poll) => {
-    console.log("Opening View and Vote dialog for poll:", poll);
+    console.log("Opening View and Vote dialog for poll:", poll.id);
     setSelectedPoll(poll);
     setIsDialogOpen(true);
   };
 
-  // Close the dialog
+  // Close the dialog and clear the selected poll
   const closeDialog = () => {
     console.log("Closing dialog");
     setSelectedPoll(null);
     setIsDialogOpen(false);
   };
 
-  // Open Create Poll dialog
+  // Open the Create Poll dialog
   const openCreatePollDialog = () => {
     console.log("Opening Create Poll dialog");
     setIsCreatePollDialogOpen(true);
@@ -118,16 +119,26 @@ const PollingApp = () => {
   return (
     <div className={styles.pollingAppContainer}>
       <div className={styles.header}>
-        <Button onClick={handleLogout} className="bg-red-600 text-white rounded-[2px] p-2">
+        <Button
+          onClick={handleLogout}
+          className="bg-red-600 text-white rounded-[2px] p-2"
+        >
           Log Out
         </Button>
-        <Button onClick={openCreatePollDialog} className="bg-blue-600 text-white rounded-[2px] p-2">
+        <Button
+          onClick={openCreatePollDialog}
+          className="bg-blue-600 text-white rounded-[2px] p-2"
+        >
           Create Poll
         </Button>
       </div>
 
       {toastMessage && (
-        <Toast message={toastMessage} type={toastType} onClose={() => setToastMessage("")} />
+        <Toast
+          message={toastMessage}
+          type={toastType}
+          onClose={() => setToastMessage("")}
+        />
       )}
 
       <div className={styles.pollList}>
@@ -136,14 +147,16 @@ const PollingApp = () => {
             <PollCard
               poll={poll}
               userId={session?.user?.id}
-              onVote={handleVote}
+              onVote={(selectedOption) =>
+                handleVote(poll.id, selectedOption)
+              }
               onViewVote={() => handleViewVote(poll)}
             />
           </div>
         ))}
       </div>
 
-      {/* View and Vote Dialog rendered by the parent */}
+      {/* View and Vote Dialog rendered in a modal */}
       {isDialogOpen && selectedPoll && (
         <Dialog isOpen={isDialogOpen} onClose={closeDialog}>
           <ViewAndVoteDialog
@@ -155,7 +168,7 @@ const PollingApp = () => {
         </Dialog>
       )}
 
-      {/* Create Poll Dialog */}
+      {/* Create Poll Dialog rendered in a modal */}
       {isCreatePollDialogOpen && (
         <Dialog isOpen={isCreatePollDialogOpen} onClose={closeCreatePollDialog}>
           <CreatePollDialog onClose={closeCreatePollDialog} />

@@ -1,1 +1,118 @@
-[]
+[
+  {
+    "voteId": "a756d1f5-73ee-414a-a80f-89ccc7e3b9ea",
+    "pollId": "823285d4-658c-4178-8e84-5b399a510835",
+    "userId": "63006412-cbad-4c57-839f-2b040495365a",
+    "selectedOption": "2",
+    "signatureFile": null,
+    "timestamp": "2025-02-06T13:03:08.367Z"
+  },
+  {
+    "voteId": "1738849650487-0.6123595268367636",
+    "pollId": "823285d4-658c-4178-8e84-5b399a510835",
+    "userId": "63006412-cbad-4c57-839f-2b040495365a",
+    "selectedOption": "2",
+    "signaturePath": null
+  },
+  {
+    "voteId": "1738849992593-0.2820097977177307",
+    "pollId": "823285d4-658c-4178-8e84-5b399a510835",
+    "userId": "63006412-cbad-4c57-839f-2b040495365a",
+    "selectedOption": "2",
+    "signaturePath": null
+  },
+  {
+    "voteId": "1738850010711-0.1494760451427537",
+    "pollId": "823285d4-658c-4178-8e84-5b399a510835",
+    "userId": "63006412-cbad-4c57-839f-2b040495365a",
+    "selectedOption": "1",
+    "signaturePath": null
+  },
+  {
+    "voteId": "1738850338065-0.4633379098534338",
+    "pollId": "823285d4-658c-4178-8e84-5b399a510835",
+    "userId": "63006412-cbad-4c57-839f-2b040495365a",
+    "selectedOption": "1",
+    "signaturePath": null
+  },
+  {
+    "voteId": "1738850377015-0.31695993564584457",
+    "pollId": "823285d4-658c-4178-8e84-5b399a510835",
+    "userId": "63006412-cbad-4c57-839f-2b040495365a",
+    "selectedOption": "1",
+    "signaturePath": null
+  },
+  {
+    "voteId": "1738850519013-0.8310660631021181",
+    "pollId": "823285d4-658c-4178-8e84-5b399a510835",
+    "userId": "63006412-cbad-4c57-839f-2b040495365a",
+    "selectedOption": "1",
+    "signaturePath": null
+  },
+  {
+    "voteId": "1738850755083-0.7336396268428527",
+    "pollId": "823285d4-658c-4178-8e84-5b399a510835",
+    "userId": "63006412-cbad-4c57-839f-2b040495365a",
+    "selectedOption": "1",
+    "signaturePath": null
+  },
+  {
+    "voteId": "1738850936467-0.31876948409927364",
+    "pollId": "823285d4-658c-4178-8e84-5b399a510835",
+    "userId": "63006412-cbad-4c57-839f-2b040495365a",
+    "selectedOption": "3",
+    "signaturePath": null
+  },
+  {
+    "voteId": "1738851613334-0.6712849445394775",
+    "pollId": "823285d4-658c-4178-8e84-5b399a510835",
+    "userId": "63006412-cbad-4c57-839f-2b040495365a",
+    "selectedOption": "1",
+    "signaturePath": null
+  },
+  {
+    "voteId": "1738851722074-0.5408891961933411",
+    "pollId": "823285d4-658c-4178-8e84-5b399a510835",
+    "userId": "63006412-cbad-4c57-839f-2b040495365a",
+    "selectedOption": "2"
+  },
+  {
+    "voteId": "1738852766047-0.6355789197192252",
+    "pollId": "823285d4-658c-4178-8e84-5b399a510835",
+    "userId": "63006412-cbad-4c57-839f-2b040495365a",
+    "selectedOption": "1"
+  },
+  {
+    "voteId": "1738852880048-0.7696658990051004",
+    "pollId": "823285d4-658c-4178-8e84-5b399a510835",
+    "userId": "63006412-cbad-4c57-839f-2b040495365a",
+    "selectedOption": "2"
+  },
+  {
+    "voteId": "1738853099733-0.3747914099657823",
+    "pollId": "823285d4-658c-4178-8e84-5b399a510835",
+    "userId": "63006412-cbad-4c57-839f-2b040495365a",
+    "selectedOption": "1"
+  },
+  {
+    "voteId": "1738854605214-0.8150928326395488",
+    "pollId": "823285d4-658c-4178-8e84-5b399a510835",
+    "userId": "63006412-cbad-4c57-839f-2b040495365a",
+    "selectedOption": "2",
+    "signaturePath": "823285d4-658c-4178-8e84-5b399a510835-63006412-cbad-4c57-839f-2b040495365a"
+  },
+  {
+    "voteId": "1738854653369-0.9068669810888117",
+    "pollId": "823285d4-658c-4178-8e84-5b399a510835",
+    "userId": "63006412-cbad-4c57-839f-2b040495365a",
+    "selectedOption": "1",
+    "signaturePath": "823285d4-658c-4178-8e84-5b399a510835-63006412-cbad-4c57-839f-2b040495365a"
+  },
+  {
+    "voteId": "1738854676550-0.7826809812619908",
+    "pollId": "6ec84eba-7f33-46fe-b0db-be07d4a0ffb3",
+    "userId": "63006412-cbad-4c57-839f-2b040495365a",
+    "selectedOption": "3",
+    "signaturePath": "6ec84eba-7f33-46fe-b0db-be07d4a0ffb3-63006412-cbad-4c57-839f-2b040495365a"
+  }
+]
