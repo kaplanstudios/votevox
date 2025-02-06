@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../../styles/components/ui/CreatePollDialog.module.css';
-import { v4 as uuidv4 } from 'uuid'; // Ensure you have the uuid library
+import { v4 as uuidv4 } from 'uuid'; // Make sure you have the uuid library
 import { useSession } from 'next-auth/react'; // Import the useSession hook
 
 export default function CreatePollDialog({ onClose }) {

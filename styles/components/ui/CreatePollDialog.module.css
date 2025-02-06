@@ -10,8 +10,6 @@
   right: 0;
   bottom: 0;
   padding: 20px; /* Reduced padding for tighter spacing */
-  backdrop-filter: blur(5px); /* Apply blur effect to the background */
-  z-index: 1000; /* Ensure it's above other content */
 }
 
 /* Content of the dialog */
@@ -62,6 +60,7 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box; /* Ensure padding doesn't increase width */
+  color: black; /* Ensure input text is black */
 }
 
 /* Add Option Button (FontAwesome icon) */

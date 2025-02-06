@@ -1,35 +1,50 @@
+/* Dialog Modal Styles */
 .dialogBackdrop {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px); /* Apply background blur */
-  display: flex;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+  display: none; /* Hidden by default */
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 1000; /* Ensure modal is on top */
+  transition: opacity 0.3s ease; /* Fade-in effect */
+}
+
+.dialogBackdrop.show {
+  display: flex; /* Show modal when isOpen is true */
 }
 
 .dialogBox {
-  background: white;
-  padding: 20px;
+  background-color: white;
+  padding: 30px;
   border-radius: 8px;
-  width: 400px;
-  max-width: 90%;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: scale(0.9);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.dialogContent {
-  margin-top: 20px;
+.dialogBox.open {
+  transform: scale(1);
+  opacity: 1; /* Fade-in and scale effect */
 }
 
 .closeButton {
   position: absolute;
   top: 10px;
   right: 10px;
-  font-size: 24px;
   background: none;
   border: none;
+  font-size: 24px;
+  color: #333;
   cursor: pointer;
+}
+
+.dialogContent {
+  margin-top: 20px;
 }

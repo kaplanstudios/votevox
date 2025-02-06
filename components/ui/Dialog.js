@@ -1,30 +1,15 @@
-// components/ui/Dialog.js
+import React from 'react';
+import styles from '../../styles/components/ui/Dialog.module.css'; // Make sure to add a custom class for styling
 
-import React, { useEffect } from "react";
-import styles from "../../styles/components/ui/Dialog.module.css";
-
-const Dialog = ({ isOpen, onClose, children }) => {
-  useEffect(() => {
-    console.log("Dialog mounted. isOpen:", isOpen);
-  }, [isOpen]);
-
-  if (!isOpen) return null; // Don't render if not open
-
+const Dialog = ({ children, onClose }) => {
   return (
-    <div
-      className={`${styles.dialogBackdrop} ${isOpen ? styles.show : styles.hide}`}
-      onClick={onClose}
-    >
-      <div
-        className={styles.dialogBox}
-        onClick={(e) => e.stopPropagation()} // Prevents click on dialog box from closing
-      >
-        <button className={styles.closeButton} onClick={onClose}>
-          &times;
-        </button>
-        <div className={styles.dialogContent}>{children}</div>
+    <>
+      <div className={styles.overlay} onClick={onClose} /> {/* Optional overlay to close the dialog */}
+      <div className={styles.dialog}>
+        <button className={styles.closeButton} onClick={onClose}>X</button>
+        {children} {/* Render the child dialog component */}
       </div>
-    </div>
+    </>
   );
 };
 

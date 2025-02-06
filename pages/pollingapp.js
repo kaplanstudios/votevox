@@ -1,6 +1,6 @@
 // pages/PollingApp.js
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import PollCard from "../components/ui/PollCard";
@@ -56,9 +56,6 @@ const PollingApp = () => {
       return;
     }
 
-    console.log("Poll ID:", pollId);
-    console.log("Selected Option:", selectedOption);
-
     const voteData = { pollId, selectedOption };
 
     try {
@@ -89,27 +86,24 @@ const PollingApp = () => {
   };
 
   // Open the "View and Vote" dialog for a selected poll
-  const handleViewVote = (poll) => {
-    console.log("Opening View and Vote dialog for poll:", poll.id);
+  const handleViewVote = useCallback((poll) => {
+    console.log(`Opening ViewAndVoteDialog for poll id: ${poll.id}`); // Debugging
     setSelectedPoll(poll);
     setIsDialogOpen(true);
-  };
+  }, []);
 
   // Close the dialog and clear the selected poll
-  const closeDialog = () => {
-    console.log("Closing dialog");
+  const closeDialog = useCallback(() => {
     setSelectedPoll(null);
     setIsDialogOpen(false);
-  };
+  }, []);
 
   // Open the Create Poll dialog
   const openCreatePollDialog = () => {
-    console.log("Opening Create Poll dialog");
     setIsCreatePollDialogOpen(true);
   };
 
   const closeCreatePollDialog = () => {
-    console.log("Closing Create Poll dialog");
     setIsCreatePollDialogOpen(false);
   };
 
@@ -147,16 +141,14 @@ const PollingApp = () => {
             <PollCard
               poll={poll}
               userId={session?.user?.id}
-              onVote={(selectedOption) =>
-                handleVote(poll.id, selectedOption)
-              }
+              onVote={(selectedOption) => handleVote(poll.id, selectedOption)}
               onViewVote={() => handleViewVote(poll)}
             />
           </div>
         ))}
       </div>
 
-      {/* View and Vote Dialog rendered in a modal */}
+      {/* View and Vote Dialog rendered outside of PollCard.js */}
       {isDialogOpen && selectedPoll && (
         <Dialog isOpen={isDialogOpen} onClose={closeDialog}>
           <ViewAndVoteDialog
@@ -168,7 +160,7 @@ const PollingApp = () => {
         </Dialog>
       )}
 
-      {/* Create Poll Dialog rendered in a modal */}
+      {/* Create Poll Dialog rendered outside of PollCard.js */}
       {isCreatePollDialogOpen && (
         <Dialog isOpen={isCreatePollDialogOpen} onClose={closeCreatePollDialog}>
           <CreatePollDialog onClose={closeCreatePollDialog} />
