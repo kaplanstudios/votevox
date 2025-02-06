@@ -1,32 +1,14 @@
 [
   {
     "id": "abcd1234-56ef-78gh-90ij-klmnopqrstuv",
+    "username": "user1",
     "email": "user1@test.com",
-    "password": "$2a$10$HGhjJtDGHLK1eKDGD2FVnrpT0ZFb8D7czj7qN8/ssIRx7PrRhAy9."
+    "password": "$2a$10$7QmHxIdR1hXjMzgEljk/2uS3l7IuhXJ0iZG6/aEpY3YxEwW3sZeOu"
   },
   {
     "id": "25e1989f-df29-4e61-b5cf-6aad70142800",
+    "username": "test1",
     "email": "test1@test.com",
-    "password": "$2a$10$Q.MkLZrfkKLtJcifOJChJeo6JyaeJ5CiLypnytrHxTJe7uSHljWiG"
-  },
-  {
-    "id": "d8f28720-2dc5-4d90-b7e5-237fbc1b0aea",
-    "email": "testy@testy.com",
-    "password": "$2a$10$YEmIjRMBwj6RDkhLPZ.aIOkIqT3L3nvlQR6ChvR5q9GBQp2aorKMG"
-  },
-  {
-    "id": "63006412-cbad-4c57-839f-2b040495365a",
-    "email": "test@test.com",
-    "password": "$2a$10$c2CtHJATFRd36HhurKZ9KeyONdfvCd6QlvMeIw5tyVUOBlTO05zZe"
-  },
-  {
-    "id": "e788ad64-9919-4dc6-b866-5a23a3331161",
-    "email": "try@try.com",
-    "password": "$2a$10$8215Pl7XgjL2oEKO8r9HS.NJgAEbR1saRz0lTY8P.uSKVS2xGrtlm"
-  },
-  {
-    "id": "5e5b3358-ad13-4145-ac32-9d182a6bd02a",
-    "email": "google@google.com",
-    "password": "$2a$10$HPVExjPeGGFroKOkVO.41O/shmsw1wCNyyGYygx26EORauMdDa1gu"
+    "password": "$2a$10$7QmHxIdR1hXjMzgEljk/2uS3l7IuhXJ0iZG6/aEpY3YxEwW3sZeOu"
   }
 ]

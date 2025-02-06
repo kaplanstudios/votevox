@@ -16,7 +16,7 @@ export default function Vote() {
 
   const fetchPoll = async () => {
     try {
-      const response = await fetch(`/api/vote/${pollid}`);
+      const response = await fetch(`/api/polls/${pollid}`);  // Correct API path
       if (!response.ok) {
         throw new Error('Failed to fetch poll');
       }
@@ -29,16 +29,20 @@ export default function Vote() {
 
   const handleVote = async (optionId) => {
     try {
-      const response = await fetch(`/api/vote/${pollid}`, {
+      const userId = 'user1'; // Replace this with the actual user ID (from session or context)
+      const response = await fetch(`/api/polls/${pollid}/vote`, {  // Correct API path for vote submission
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: 'user1', optionId, tokens: 1 }), // Example userId and tokens
+        body: JSON.stringify({ userId, optionId }), // Sending userId and optionId to the server
       });
+
       if (!response.ok) {
         throw new Error('Failed to vote');
       }
+
       const data = await response.json();
-      fetchPoll(); // Refresh poll data
+      console.log(data.message); // Success message from the API
+      fetchPoll(); // Refresh the poll data after the vote
     } catch (err) {
       setError(err.message);
     }
@@ -55,7 +59,11 @@ export default function Vote() {
       {error && <p className={styles.error}>{error}</p>}
       <div className={styles.options}>
         {poll.options.map((option) => (
-          <button key={option.id} onClick={() => handleVote(option.id)} className={styles.option}>
+          <button
+            key={option.id}
+            onClick={() => handleVote(option.id)}
+            className={styles.option}
+          >
             {option.text} ({option.votes})
           </button>
         ))}

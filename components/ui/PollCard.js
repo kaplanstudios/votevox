@@ -4,7 +4,16 @@ import { faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
 import CardContent from "./CardContent";
 import styles from "../../styles/components/ui/PollCard.module.css";
 
-const PollCard = ({ poll, onOpenDialog, userId, index, fadeOut, isActive, onCancel, onSave }) => {
+const PollCard = ({
+  poll,
+  onViewVote, // Make sure this prop is passed from the parent
+  userId,
+  index,
+  fadeOut,
+  isActive,
+  onCancel,
+  onSave
+}) => {
   const [userVote, setUserVote] = useState(null);
   const [upvotes, setUpvotes] = useState(0);
   const [downvotes, setDownvotes] = useState(0);
@@ -13,17 +22,12 @@ const PollCard = ({ poll, onOpenDialog, userId, index, fadeOut, isActive, onCanc
   // Fetch vote data when poll or userId changes.
   useEffect(() => {
     const fetchVotes = async () => {
-      try {
-        const response = await fetch(`/api/ranks/${poll.id}`);
-        if (response.ok) {
-          const data = await response.json();
-          const votes = data.votes || [];
-          calculateVotes(votes);
-          const found = votes.find((vote) => vote.userId === userId);
-          setUserVote(found ? found.vote : null);
-        }
-      } catch (error) {
-        console.error("Error fetching votes:", error);
+      const res = await fetch(`/api/polls/${poll.id}`);
+      const data = await res.json();
+      if (data.votes) {
+        calculateVotes(data.votes);
+        const found = data.votes.find((vote) => vote.userId === userId);
+        setUserVote(found ? found.vote : null);
       }
     };
     fetchVotes();
@@ -44,40 +48,65 @@ const PollCard = ({ poll, onOpenDialog, userId, index, fadeOut, isActive, onCanc
   };
 
   const handleVote = async (voteType) => {
-    try {
-      const response = await fetch(`/api/ranks/${poll.id}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, vote: voteType }),
-      });
-      if (response.ok) {
-        const updatedData = await response.json();
-        calculateVotes(updatedData.votes);
-        const found = updatedData.votes.find((v) => v.userId === userId);
-        setUserVote(found ? found.vote : null);
+    let response;
+  
+    // Fetch current rank data
+    const res = await fetch(`/api/polls/${poll.id}`);
+    const rankData = await res.json();
+  
+    if (!rankData) {
+      console.log("Poll not found");
+      return;
+    }
+  
+    // Ensure that rankData.votes is an array before trying to push
+    if (!rankData.votes) {
+      rankData.votes = [];
+    }
+  
+    // Check if rankData.votes exists before trying to find the user's vote
+    const existingVote = rankData.votes.find((vote) => vote.userId === userId);
+  
+    if (existingVote) {
+      if (voteType === null) {
+        // Remove user's vote if they unvote
+        rankData.votes = rankData.votes.filter((vote) => vote.userId !== userId);
       } else {
-        console.error("Error updating vote, status:", response.status);
+        existingVote.vote = voteType;
       }
-    } catch (error) {
-      console.error("Error updating vote:", error);
+    } else if (voteType !== null) {
+      rankData.votes.push({ userId, vote: voteType });
+    }
+  
+    // Send the updated vote data to the backend
+    response = await fetch(`/api/polls/${poll.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(rankData),
+    });
+  
+    if (response.ok) {
+      calculateVotes(rankData.votes); // Recalculate votes after update
+      setUserVote(voteType); // Update the user's vote in the state
+    } else {
+      console.log("Failed to update vote.");
     }
   };
 
   const calculateDaysLeft = (closingDate) => {
     const currentDate = new Date();
-    const closeDate = new Date(closingDate);
+    const closeDate = new Date(closingDate); // Corrected variable name
     const daysLeft = Math.floor((closeDate - currentDate) / (1000 * 3600 * 24));
     return daysLeft > 0 ? `${daysLeft} days left` : "Closed";
   };
+  
 
   return (
     <div
-      className={`
-        ${styles.pollCard} 
+      className={`${styles.pollCard} 
         ${index !== undefined && index % 4 === 0 ? styles.firstInRow : ""} 
         ${fadeOut ? styles.fadeOut : styles.fadeIn}
-        ${isActive ? styles.activeCard : ""}
-      `}
+        ${isActive ? styles.activeCard : ""}`}
     >
       <CardContent
         className={styles.cardContent}
@@ -93,7 +122,7 @@ const PollCard = ({ poll, onOpenDialog, userId, index, fadeOut, isActive, onCanc
             <button
               type="button"
               className={styles.viewVoteButton}
-              onClick={() => onOpenDialog(poll)}
+              onClick={() => onViewVote(poll)}
               disabled={isPollClosed}
             >
               {isPollClosed ? "View Results" : "View and Vote"}

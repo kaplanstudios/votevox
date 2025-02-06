@@ -1,74 +1,101 @@
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import PollCard from "../components/ui/PollCard";
 import Button from "../components/ui/Button";
 import Toast from "../components/ui/Toast";
+import CardDialog from "../components/ui/CardDialog";
+import Dialog from "../components/ui/Dialog";
 import pollsData from "../data/polls.json";
-import EmbedDialog from "../components/ui/EmbedDialog";
-import Dialog from "../components/ui/Dialog"; // Import Dialog component
 import styles from "../styles/PollingApp.module.css";
 
 const PollingApp = () => {
   const { data: session, status } = useSession();
-  const [polls] = useState(pollsData);
-  const [fadingPollId, setFadingPollId] = useState(null);
-  const [activePoll, setActivePoll] = useState(null);
+  const [polls, setPolls] = useState(pollsData);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("info");
-  const [selectedPollId, setSelectedPollId] = useState(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedPoll, setSelectedPoll] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
-    // Prevent dialog from blinking by adding a delay before switching poll views
-    if (activePoll && selectedPollId !== activePoll.id) {
-      setTimeout(() => {
-        setActivePoll(null); // reset activePoll to prevent flickering
-      }, 300); // delay for smoother transition
+    if (status === "loading") return;
+    if (!session) router.push("/signin");
+  }, [status, session, router]);
+
+  useEffect(() => {
+    const fetchPolls = async () => {
+      try {
+        console.log("Fetching polls from API...");
+        const response = await fetch("/api/polls");
+        if (!response.ok) throw new Error("Failed to fetch polls");
+        const data = await response.json();
+        setPolls(data);
+        console.log("Polls loaded:", data);
+      } catch (error) {
+        console.error("Error fetching polls:", error);
+        setToastMessage("Error loading polls.");
+        setToastType("error");
+      }
+    };
+    fetchPolls();
+  }, []);
+
+  useEffect(() => {
+    console.log("Re-rendering due to state update:", { isDialogOpen, selectedPoll });
+  }, [isDialogOpen, selectedPoll]);
+
+  const handleVote = async (pollId, optionId) => {
+    try {
+      console.log(`Submitting vote for poll ${pollId}, option ${optionId}`);
+      const response = await fetch(`/api/polls/${pollId}/vote`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: session?.user?.id, optionId }),
+      });
+
+      if (!response.ok) throw new Error("Failed to vote");
+
+      setToastMessage("Your vote has been cast successfully!");
+      setToastType("success");
+    } catch (error) {
+      console.error("Error submitting vote:", error);
+      setToastMessage("Error submitting vote.");
+      setToastType("error");
     }
-  }, [selectedPollId, activePoll]);
-
-  if (status === "loading") return <div>Loading...</div>;
-  if (!session) return <div>Please sign in to vote.</div>;
-
-  const handleDialogOpen = (poll) => {
-    setFadingPollId(poll.id);
-    setTimeout(() => {
-      setActivePoll(poll);
-      setFadingPollId(null);
-    }, 300);
-  };
-
-  const handleCancel = () => {
-    setActivePoll(null);
-  };
-
-  const handleSaveVote = () => {
-    setActivePoll(null);
   };
 
   const handleLogout = async () => {
     try {
-      await fetch('/api/logout', {
-        method: 'POST',
-      });
-      setToastMessage('Successfully logged out!');
-      setToastType('success');
-      setTimeout(() => {
-        router.push('/signin');
-      }, 2000);
+      console.log("Logging out user...");
+      await fetch("/api/logout", { method: "POST" });
+      setToastMessage("Successfully logged out!");
+      setToastType("success");
+      setTimeout(() => router.push("/signin"), 2000);
     } catch (error) {
-      setToastMessage('Failed to log out');
-      setToastType('error');
+      console.error("Logout failed:", error);
+      setToastMessage("Failed to log out");
+      setToastType("error");
     }
   };
 
-  const handleShare = (pollId) => {
-    setSelectedPollId(pollId);
+  const handleViewVote = (poll) => {
+    console.log("Opening dialog for poll:", poll);
+    setSelectedPoll(poll);
+    setIsDialogOpen((prev) => {
+      console.log("Previous state:", prev);
+      return true;
+    });
   };
 
-  const closeEmbedDialog = () => {
-    setSelectedPollId(null);
+  const closeDialog = () => {
+    console.log("Closing dialog");
+    setSelectedPoll(null);
+    setIsDialogOpen(false);
   };
+
+  if (status === "loading") return <div>Loading...</div>;
+  if (!session) return <div>Please sign in to vote.</div>;
 
   return (
     <div className={styles.pollingAppContainer}>
@@ -78,30 +105,28 @@ const PollingApp = () => {
         </Button>
       </div>
 
-      {toastMessage && (
-        <Toast message={toastMessage} type={toastType} onClose={() => setToastMessage("")} />
-      )}
+      {toastMessage && <Toast message={toastMessage} type={toastType} onClose={() => setToastMessage("")} />}
 
-      <div className={`${styles.pollList} ${activePoll ? styles.blurBackground : ""}`}>
-        {polls.map((poll, index) => (
-          <PollCard
-            key={poll.id}
-            poll={poll}
-            userId={session.user.id}
-            onOpenDialog={handleDialogOpen} // Ensure this is passed
-            onShare={handleShare}
-            index={index}
-            fadeOut={fadingPollId === poll.id}
-          />
+      <div className={styles.pollList}>
+        {polls.map((poll) => (
+          <div key={poll.id} className={styles.pollCardWrapper}>
+            <PollCard
+              poll={poll}
+              userId={session?.user?.id}
+              onVote={handleVote}
+              onViewVote={() => handleViewVote(poll)}
+            />
+          </div>
         ))}
       </div>
 
-      {/* Fullscreen Dialog is separate from PollCard */}
-      {selectedPollId && (
-        <Dialog onClose={closeEmbedDialog}>
-          <EmbedDialog pollId={selectedPollId} onClose={closeEmbedDialog} />
+      {isDialogOpen && selectedPoll && (
+        <Dialog isOpen={isDialogOpen} onClose={closeDialog}>
+          <CardDialog poll={selectedPoll} onClose={closeDialog} onVote={handleVote} />
         </Dialog>
       )}
+
+
     </div>
   );
 };

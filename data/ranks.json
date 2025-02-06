@@ -7,16 +7,8 @@
         "vote": 1
       },
       {
-        "userId": "25e1989f-df29-4e61-b5cf-6aad70142800",
-        "vote": 1
-      },
-      {
-        "userId": "d8f28720-2dc5-4d90-b7e5-237fbc1b0aea",
-        "vote": -1
-      },
-      {
         "userId": "63006412-cbad-4c57-839f-2b040495365a",
-        "vote": 1
+        "vote": -1
       }
     ]
   },
@@ -24,81 +16,7 @@
     "pollId": "ab21f3b7-36ab-4895-a1e8-fb0635e2d75e",
     "votes": [
       {
-        "userId": "e788ad64-9919-4dc6-b866-5a23a3331161",
-        "vote": 1
-      },
-      {
-        "userId": "5e5b3358-ad13-4145-ac32-9d182a6bd02a",
-        "vote": -1
-      },
-      {
-        "userId": "63006412-cbad-4c57-839f-2b040495365a",
-        "vote": 1
-      }
-    ]
-  },
-  {
-    "pollId": "75b3a4c9-77c5-4dfd-bf23-e6a55d83160d",
-    "votes": [
-      {
-        "userId": "e788ad64-9919-4dc6-b866-5a23a3331161",
-        "vote": 1
-      },
-      {
-        "userId": "5e5b3358-ad13-4145-ac32-9d182a6bd02a",
-        "vote": 1
-      },
-      {
         "userId": "abcd1234-56ef-78gh-90ij-klmnopqrstuv",
-        "vote": -1
-      },
-      {
-        "userId": "63006412-cbad-4c57-839f-2b040495365a",
-        "vote": -1
-      }
-    ]
-  },
-  {
-    "pollId": "d1ae4bfe-d0bb-4f5a-9e34-f8a85f7b7dbd",
-    "votes": [
-      {
-        "userId": "63006412-cbad-4c57-839f-2b040495365a",
-        "vote": 1
-      }
-    ]
-  },
-  {
-    "pollId": "c1fbe12f-cf96-4a25-94d3-e38fcf8d688f",
-    "votes": [
-      {
-        "userId": "63006412-cbad-4c57-839f-2b040495365a",
-        "vote": 1
-      }
-    ]
-  },
-  {
-    "pollId": "0d2396a7-7999-4d1f-95bb-b9a7fdbfb1a1",
-    "votes": [
-      {
-        "userId": "63006412-cbad-4c57-839f-2b040495365a",
-        "vote": null
-      }
-    ]
-  },
-  {
-    "pollId": "4f4b2df7-073a-43c5-9d1e-c28c283a2541",
-    "votes": [
-      {
-        "userId": "63006412-cbad-4c57-839f-2b040495365a",
-        "vote": 1
-      }
-    ]
-  },
-  {
-    "pollId": "90156b9e-7f3d-4bfa-a15a-fdb25140fdfa",
-    "votes": [
-      {
-        "userId": "63006412-cbad-4c57-839f-2b040495365a",
         "vote": 1
       }
     ]

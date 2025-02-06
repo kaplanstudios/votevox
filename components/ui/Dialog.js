@@ -1,10 +1,17 @@
-import React from 'react';
-import '../../styles/components/ui/Dialog.module.css';
+import React, { useEffect } from "react";
+import styles from "../../styles/components/ui/Dialog.module.css";
 
-const Dialog = ({ children, onClose }) => {
+const Dialog = ({ isOpen, onClose, children }) => {
+  useEffect(() => {
+    console.log("Dialog mounted. isOpen:", isOpen);
+  }, [isOpen]);
+
   return (
-    <div className="dialog-backdrop" onClick={onClose}>
-      <div className="dialog-box" onClick={(e) => e.stopPropagation()}>
+    <div className={`${styles.dialogBackdrop} ${isOpen ? styles.show : styles.hide}`} onClick={onClose}>
+      <div className={styles.dialogBox} onClick={(e) => e.stopPropagation()}>
+        <button className={styles.closeButton} onClick={onClose}>
+          &times;
+        </button>
         {children}
       </div>
     </div>

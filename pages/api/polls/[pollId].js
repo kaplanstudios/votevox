@@ -1,65 +1,31 @@
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import styles from '../../../styles/Vote.module.css';
+import pollsData from '../../../data/polls.json';
 
-export default function Vote() {
-  const [poll, setPoll] = useState(null);
-  const [error, setError] = useState('');
-  const router = useRouter();
-  const { pollid } = router.query;
+export default function handler(req, res) {
+  const { pollId } = req.query;
 
-  useEffect(() => {
-    if (pollid) {
-      fetchPoll();
+  if (req.method === 'GET') {
+    const poll = pollsData.find(p => p.id === pollId);
+
+    if (poll) {
+      res.status(200).json(poll);
+    } else {
+      res.status(404).json({ error: 'Poll not found' });
     }
-  }, [pollid]);
-
-  const fetchPoll = async () => {
-    try {
-      const response = await fetch(`/api/vote/${pollid}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch poll');
-      }
-      const data = await response.json();
-      setPoll(data);
-    } catch (err) {
-      setError(err.message);
+  } else if (req.method === 'PUT') {
+    // Handle PUT request to update the poll
+    const pollIndex = pollsData.findIndex(p => p.id === pollId);
+    if (pollIndex === -1) {
+      return res.status(404).json({ error: 'Poll not found' });
     }
-  };
 
-  const handleVote = async (optionId) => {
-    try {
-      const response = await fetch(`/api/vote/${pollid}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: 'user1', optionId, tokens: 1 }), // Example userId and tokens
-      });
-      if (!response.ok) {
-        throw new Error('Failed to vote');
-      }
-      const data = await response.json();
-      fetchPoll(); // Refresh poll data
-    } catch (err) {
-      setError(err.message);
-    }
-  };
+    // Update the poll with the new vote data
+    pollsData[pollIndex] = { ...pollsData[pollIndex], ...req.body };
 
-  if (!poll) {
-    return <div>Loading...</div>;
+    // Optionally, save the updated data back to a database/file here
+    // For now, let's just return the updated poll
+    res.status(200).json(pollsData[pollIndex]);
+  } else {
+    res.setHeader('Allow', ['GET', 'PUT']);
+    res.status(405).end(`Method ${req.method} Not Allowed`);
   }
-
-  return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>{poll.title}</h1>
-      <p className={styles.description}>{poll.description}</p>
-      {error && <p className={styles.error}>{error}</p>}
-      <div className={styles.options}>
-        {poll.options.map((option) => (
-          <button key={option.id} onClick={() => handleVote(option.id)} className={styles.option}>
-            {option.text} ({option.votes})
-          </button>
-        ))}
-      </div>
-    </div>
-  );
 }

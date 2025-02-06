@@ -1,32 +1,56 @@
-import { getSession } from "next-auth/react";
-import { join } from "path";
-import fs from "fs/promises";
+import ranksData from '../../../data/ranks.json';
+import pollsData from '../../../data/polls.json';
+import fs from 'fs';
+import path from 'path';
 
-// Define file paths using UUID-based JSON data files
-const usersFile = join(process.cwd(), "data", "users.json");
-const pollsFile = join(process.cwd(), "data", "polls.json");
+export default function handler(req, res) {
+  const { id } = req.query; // Poll ID passed in the URL
 
-export default async function handler(req, res) {
-  // Get the session from NextAuth
-  const session = await getSession({ req });
-  if (!session) {
-    res.status(401).json({ message: "Unauthorized" });
-    return;
+  if (req.method === 'POST') {
+    const poll = pollsData.find(p => p.id === id); // Find the poll by its ID
+    if (!poll) {
+      return res.status(404).json({ error: 'Poll not found' });
+    }
+
+    const { userId, vote } = req.body; // Get userId and vote from the request body
+
+    // Find the ranks entry for the pollId
+    let pollRanks = ranksData.find(r => r.pollId === id);
+
+    // If the poll has no existing ranks, create a new entry
+    if (!pollRanks) {
+      pollRanks = {
+        pollId: id,
+        votes: []
+      };
+      ranksData.push(pollRanks);
+    }
+
+    // Check if the user has already voted
+    const existingVote = pollRanks.votes.find(v => v.userId === userId);
+
+    if (existingVote) {
+      if (vote === null) {
+        // If the user removed their vote, delete it from the array
+        pollRanks.votes = pollRanks.votes.filter(v => v.userId !== userId);
+      } else {
+        // If the user changes their vote, update it
+        existingVote.vote = vote;
+      }
+    } else {
+      // If the user hasn't voted yet, add their vote
+      if (vote !== null) {
+        pollRanks.votes.push({ userId, vote });
+      }
+    }
+
+    // Persist the updated ranks data back to the file
+    const filePath = path.join(process.cwd(), 'data', 'ranks.json');
+    fs.writeFileSync(filePath, JSON.stringify(ranksData, null, 2));
+
+    res.status(200).json({ message: 'Vote recorded successfully' });
+  } else {
+    res.setHeader('Allow', ['POST']);
+    res.status(405).end(`Method ${req.method} Not Allowed`);
   }
-
-  // Handle POST requests for ranking (voting)
-  if (req.method === "POST") {
-    const { pollId, rank } = req.body; // Expect rank to be 1, -1, or 0
-
-    // Add your logic here for updating ranking data.
-    // For example, read the polls file, update the appropriate poll, and write back.
-
-    // Dummy response for now:
-    res.status(200).json({ message: "Vote registered", pollId, rank });
-    return;
-  }
-
-  // Return a 405 for any non-POST requests.
-  res.setHeader("Allow", ["POST"]);
-  res.status(405).end(`Method ${req.method} Not Allowed`);
 }
