@@ -18,11 +18,9 @@
   box-sizing: border-box;
 }
 
-body *{
+body {
   margin: 0;
   background-color: #000000; /* Or use Tailwind class for bg-black if needed */
-  font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-
 }
 /* General Styles */
 html, body {

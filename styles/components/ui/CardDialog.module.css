@@ -1,11 +1,10 @@
-/* Dialog fullscreen styling */
-.dialogFullScreen {
+.modalOverlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,20 +12,53 @@
   }
   
   .dialogContent {
-    background: white;
-    padding: 20px;
-    max-width: 100%;
-    max-height: 100%;
-    overflow-y: auto;
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 400px;
+    max-width: 90%;
+    transition: opacity 0.3s ease, transform 0.3s ease;
   }
   
-  .closeButton {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: transparent;
+  .pollOptions {
+    margin-top: 20px;
+  }
+  
+  .voteButton {
+    margin: 10px 0;
+  }
+  
+  .voteButton button {
+    background-color: #0073e6;
+    color: white;
+    padding: 10px 20px;
     border: none;
-    font-size: 24px;
+    border-radius: 8px;
     cursor: pointer;
+    width: 100%;
+  }
+  
+  .voteButton button:hover {
+    background-color: #005bb5;
+  }
+  
+  .footer {
+    margin-top: 20px;
+  }
+  
+  .closeDialog {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .closeDialog:hover {
+    background-color: #d32f2f;
   }
   
