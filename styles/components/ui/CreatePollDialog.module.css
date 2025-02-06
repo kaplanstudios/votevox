@@ -146,6 +146,7 @@
 /* Ensure input fields and remove button stay aligned */
 .inputGroup {
   position: relative;
+  color: black !important;
 }
 
 /* Styling for the "Require Notarized Signature" field label */

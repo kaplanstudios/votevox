@@ -1,6 +1,21 @@
-/* Dialog content styling for ViewAndVoteDialog */
-
-.dialogContent {
+/* Dialog container */
+.dialog {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+  }
+  
+  /* Content of the dialog */
+  .dialogContent {
     background-color: white;
     padding: 20px;
     max-width: 500px;
@@ -10,10 +25,9 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
-    max-height: 90vh;
-    overflow-y: auto;
   }
   
+  /* Title of the dialog */
   .title {
     font-size: 24px;
     font-weight: bold;
@@ -21,27 +35,97 @@
     color: black;
   }
   
-  .options {
+  /* Poll Text */
+  .pollText {
+    font-size: 14px;
+    color: black;
+    margin-top: 5px;
+    line-height: 1.5;
+  }
+  
+  /* Input group for title, description, and options */
+  .inputGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  
+  .label {
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 5px;
+  }
+  
+  /* Option list styling */
+  .optionList {
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
   
-  .option {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  /* Button style for options */
+  .optionButton {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
   }
   
-  .signatureContainer {
-    margin-top: 20px;
-    text-align: center;
+  .optionButton:hover {
+    background-color: #e0e0e0;
   }
   
+  .selectedOption {
+    background-color: #90ee90;  /* Light green for selected option */
+  }
+  
+  /* Signature Canvas Section */
+  .signatureSection {
+    margin-top: 15px;
+  }
+  
+  .signatureCanvasContainer {
+    margin-top: 10px;
+  }
+  
+  .signatureCanvas {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .clearButton {
+    background-color: #ff6347;
+    color: white;
+    padding: 5px 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .clearButton:hover {
+    background-color: #e53e35;
+  }
+  
+  /* Button group */
   .buttonGroup {
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
+    margin-top: 10px;
+  }
+  
+  /* Button styles */
+  .bgGreen {
+    background-color: green;
+  }
+  
+  .bgGray {
+    background-color: gray;
   }
   
   .dialogButton {
@@ -56,13 +140,5 @@
   
   .dialogButton:hover {
     opacity: 0.9;
-  }
-  
-  .bgGreen {
-    background-color: green;
-  }
-  
-  .bgGray {
-    background-color: gray;
   }
   
