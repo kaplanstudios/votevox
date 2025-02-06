@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import PollCard from "../components/ui/PollCard";
 import Button from "../components/ui/Button";
 import Toast from "../components/ui/Toast";
