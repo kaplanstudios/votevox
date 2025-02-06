@@ -1,0 +1,160 @@
+/* Dialog container */
+.dialog {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 20px; /* Reduced padding for tighter spacing */
+}
+
+/* Content of the dialog */
+.dialogContent {
+  background-color: white;
+  padding: 20px; /* Adjusted for tighter spacing */
+  max-width: 500px;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden; /* Prevent overflow */
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Reduced gap between elements */
+}
+
+/* Title of the dialog */
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: black;
+}
+
+/* Input group for title, description, and options */
+.inputGroup {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 10px; /* Reduced bottom margin */
+}
+
+.label {
+  font-size: 14px;
+  font-weight: bold;
+  color: black;
+  text-align: left;
+  margin-right: 10px; /* Space between label and input field */
+  width: 30%; /* Ensure label takes up 30% of the width */
+}
+
+/* Input fields with 30px height and narrower width */
+.inputField {
+  height: 30px;
+  font-size: 14px;
+  padding: 5px;
+  margin-top: 5px;
+  width: 60%;  /* Narrower input field */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Ensure padding doesn't increase width */
+  color: black; /* Ensure input text is black */
+}
+
+/* Add Option Button (FontAwesome icon) */
+.addOptionButton {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  height: 40px; /* Set the button height to 40px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.addOptionButton i {
+  font-size: 20px; /* FontAwesome icon size */
+}
+
+/* Checkbox styling */
+.checkboxGroup {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  color:black !important;
+}
+
+.checkboxGroup input {
+  margin-right: 10px !important;
+  padding-right: 10px;
+}
+
+/* Button group at the bottom */
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+/* Specific button styles with 40px height */
+.bgGreen {
+  background-color: green;
+}
+
+.bgGray {
+  background-color: gray;
+}
+
+.dialogButton {
+  font-size: 16px;
+  padding: 10px 20px;
+  width: 48%;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  height: 40px; /* Set button height to 40px */
+}
+
+.dialogButton:hover {
+  opacity: 0.9;
+}
+
+/* Remove Option Button */
+.removeOptionButton {
+  background-color: #dc3545;
+  color: white;
+  font-size: 12px; /* Tiny font size */
+  padding: 3px 5px;
+  border: none;
+  cursor: pointer;
+  height: 24px; /* Tiny height */
+  width: 24px;  /* Tiny width */
+  border-radius: 50%; /* Round shape */
+  position: absolute;
+  right: 8px; /* Align to the right with 8px margin */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Ensure input fields and remove button stay aligned */
+.inputGroup {
+  position: relative;
+}
+
+/* Styling for the "Require Notarized Signature" field label */
+.requireNotarizedLabel {
+  color: black; /* Explicitly black color for this label */
+}
+
+/* Adjust dialog content and ensure no overflow */
+.dialogContent {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Enable scrolling if content overflows */
+}

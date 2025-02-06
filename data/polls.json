@@ -4,63 +4,136 @@
     "title": "Favorite Color",
     "description": "What's your favorite color?",
     "closingDate": "2023-05-01T00:00:00Z",
-    "options": ["Red", "Blue", "Green", "Yellow"],
-    "creatorId": "abcd1234-56ef-78gh-90ij-klmnopqrstuv"
+    "options": [
+      "Red",
+      "Blue",
+      "Green",
+      "Yellow"
+    ],
+    "creatorId": "abcd1234-56ef-78gh-90ij-klmnopqrstuv",
+    "notarizedSignatureRequired": false
   },
   {
     "id": "ab21f3b7-36ab-4895-a1e8-fb0635e2d75e",
     "title": "Best Programming Language",
     "description": "Which programming language do you prefer?",
     "closingDate": "2024-12-31T00:00:00Z",
-    "options": ["JavaScript", "Python", "Java", "C#"],
-    "creatorId": "25e1989f-df29-4e61-b5cf-6aad70142800"
+    "options": [
+      "JavaScript",
+      "Python",
+      "Java",
+      "C#"
+    ],
+    "creatorId": "25e1989f-df29-4e61-b5cf-6aad70142800",
+    "notarizedSignatureRequired": false
   },
   {
     "id": "75b3a4c9-77c5-4dfd-bf23-e6a55d83160d",
     "title": "Favorite Movie Genre",
     "description": "What is your favorite movie genre?",
     "closingDate": "2025-03-01T00:00:00Z",
-    "options": ["Action", "Comedy", "Drama", "Horror"],
-    "creatorId": "e788ad64-9919-4dc6-b866-5a23a3331161"
+    "options": [
+      "Action",
+      "Comedy",
+      "Drama",
+      "Horror"
+    ],
+    "creatorId": "e788ad64-9919-4dc6-b866-5a23a3331161",
+    "notarizedSignatureRequired": false
   },
   {
     "id": "d8f28720-2dc5-4d90-b7e5-237fbc1b0aea",
     "title": "Best Food Cuisine",
     "description": "Which cuisine do you prefer the most?",
     "closingDate": "2025-06-15T00:00:00Z",
-    "options": ["Italian", "Chinese", "Mexican", "Indian"],
-    "creatorId": "abcd1234-56ef-78gh-90ij-klmnopqrstuv"
+    "options": [
+      "Italian",
+      "Chinese",
+      "Mexican",
+      "Indian"
+    ],
+    "creatorId": "abcd1234-56ef-78gh-90ij-klmnopqrstuv",
+    "notarizedSignatureRequired": true
   },
   {
     "id": "63006412-cbad-4c57-839f-2b040495365a",
     "title": "Favorite Sports",
     "description": "Which sport do you enjoy the most?",
     "closingDate": "2025-07-20T00:00:00Z",
-    "options": ["Football", "Basketball", "Soccer", "Tennis"],
-    "creatorId": "5e5b3358-ad13-4145-ac32-9d182a6bd02a"
+    "options": [
+      "Football",
+      "Basketball",
+      "Soccer",
+      "Tennis"
+    ],
+    "creatorId": "5e5b3358-ad13-4145-ac32-9d182a6bd02a",
+    "notarizedSignatureRequired": false
   },
   {
     "id": "a9876dcd-4ed7-4267-91f9-9b3e0156de77",
     "title": "Best Music Genre",
     "description": "What's your favorite music genre?",
     "closingDate": "2025-02-01T00:00:00Z",
-    "options": ["Pop", "Rock", "Hip-hop", "Classical"],
-    "creatorId": "d8f28720-2dc5-4d90-b7e5-237fbc1b0aea"
+    "options": [
+      "Pop",
+      "Rock",
+      "Hip-hop",
+      "Classical"
+    ],
+    "creatorId": "d8f28720-2dc5-4d90-b7e5-237fbc1b0aea",
+    "notarizedSignatureRequired": false
   },
   {
     "id": "a55f278f-d8b7-4ed6-bbfa-e25e6d82d5e1",
     "title": "Dream Vacation Destination",
     "description": "Where would you like to go on your dream vacation?",
     "closingDate": "2025-12-31T00:00:00Z",
-    "options": ["Hawaii", "Paris", "Tokyo", "Sydney"],
-    "creatorId": "abcd1234-56ef-78gh-90ij-klmnopqrstuv"
+    "options": [
+      "Hawaii",
+      "Paris",
+      "Tokyo",
+      "Sydney"
+    ],
+    "creatorId": "abcd1234-56ef-78gh-90ij-klmnopqrstuv",
+    "notarizedSignatureRequired": false
   },
   {
     "id": "be6c9fa0-e850-4907-aab3-b6e674ce5d5d",
     "title": "Favorite Game Console",
     "description": "Which game console do you prefer?",
     "closingDate": "2025-11-15T00:00:00Z",
-    "options": ["PlayStation", "Xbox", "Nintendo Switch", "PC"],
-    "creatorId": "63006412-cbad-4c57-839f-2b040495365a"
+    "options": [
+      "PlayStation",
+      "Xbox",
+      "Nintendo Switch",
+      "PC"
+    ],
+    "creatorId": "63006412-cbad-4c57-839f-2b040495365a",
+    "notarizedSignatureRequired": true
+  },
+  {
+    "id": "d995413b-63d3-4e11-8980-b6e47117984f",
+    "title": "test11",
+    "description": "test11",
+    "closingDate": "2025-02-05T06:25",
+    "options": [
+      "1",
+      "2",
+      "3"
+    ],
+    "creatorId": "63006412-cbad-4c57-839f-2b040495365a",
+    "notarizedSignatureRequired": true
+  },
+  {
+    "id": "b9154aa6-e701-44a5-b268-3396733ba712",
+    "title": "test12",
+    "description": "test12",
+    "closingDate": "2025-02-20T06:26",
+    "options": [
+      "1",
+      "2"
+    ],
+    "creatorId": "63006412-cbad-4c57-839f-2b040495365a",
+    "notarizedSignatureRequired": false
   }
 ]

@@ -6,8 +6,10 @@ import Button from "../components/ui/Button";
 import Toast from "../components/ui/Toast";
 import CardDialog from "../components/ui/CardDialog";
 import Dialog from "../components/ui/Dialog";
+import CreatePollDialog from "../components/ui/CreatePollDialog"; // Import the new component for creating a poll
 import pollsData from "../data/polls.json";
-import styles from "../styles/PollingApp.module.css";
+import styles from "../styles/PollingApp.module.css"; // Corrected import path
+import cardDialogStyles from "../styles/components/ui/CardDialog.module.css"; // Corrected import path
 
 const PollingApp = () => {
   const { data: session, status } = useSession();
@@ -15,6 +17,7 @@ const PollingApp = () => {
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("info");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isCreatePollDialogOpen, setIsCreatePollDialogOpen] = useState(false); // State for Create Poll Dialog
   const [selectedPoll, setSelectedPoll] = useState(null);
   const router = useRouter();
 
@@ -94,6 +97,14 @@ const PollingApp = () => {
     setIsDialogOpen(false);
   };
 
+  const openCreatePollDialog = () => {
+    setIsCreatePollDialogOpen(true);
+  };
+
+  const closeCreatePollDialog = () => {
+    setIsCreatePollDialogOpen(false);
+  };
+
   if (status === "loading") return <div>Loading...</div>;
   if (!session) return <div>Please sign in to vote.</div>;
 
@@ -102,6 +113,10 @@ const PollingApp = () => {
       <div className={styles.header}>
         <Button onClick={handleLogout} className="bg-red-600 text-white rounded-[2px] p-2">
           Log Out
+        </Button>
+        {/* Add Create Poll button */}
+        <Button onClick={openCreatePollDialog} className="bg-blue-600 text-white rounded-[2px] p-2">
+          Create Poll
         </Button>
       </div>
 
@@ -122,11 +137,16 @@ const PollingApp = () => {
 
       {isDialogOpen && selectedPoll && (
         <Dialog isOpen={isDialogOpen} onClose={closeDialog}>
-          <CardDialog poll={selectedPoll} onClose={closeDialog} onVote={handleVote} />
+          <CardDialog poll={selectedPoll} onClose={closeDialog} onVote={handleVote} className={cardDialogStyles.dialogContent} />
         </Dialog>
       )}
 
-
+      {/* Create Poll Dialog */}
+      {isCreatePollDialogOpen && (
+        <Dialog isOpen={isCreatePollDialogOpen} onClose={closeCreatePollDialog}>
+          <CreatePollDialog onClose={closeCreatePollDialog} />
+        </Dialog>
+      )}
     </div>
   );
 };

@@ -2,7 +2,7 @@ import { SessionProvider } from 'next-auth/react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
-import '../styles/globals.css';
+import '../styles/globals.css'; // Importing global styles
 
 function MyApp({ Component, pageProps }) {
   return (

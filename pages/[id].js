@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import ranksData from '../../data/ranks.json'; // Mock data for ranks
-import PollCard from '../../components/ui/PollCard'; // Assuming PollCard is the component to render each poll
+import ranksData from '../data/ranks.json'; // Mock data for ranks
+import PollCard from '../components/ui/PollCard'; // Assuming PollCard is the component to render each poll
 
 export async function getStaticPaths() {
   // Assuming ranksData contains a list of polls with their IDs
