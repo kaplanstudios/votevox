@@ -96,20 +96,5 @@
       "Nintendo Switch",
       "PC"
     ]
-  },
-  {
-    "id": "00851623-2949-46d5-944f-72aa8aa6ce1c",
-    "title": "test 1",
-    "description": "test 1",
-    "options": [
-      "chevy",
-      "ford",
-      "dodge"
-    ],
-    "notarized": true,
-    "closingDate": "2025-02-08",
-    "creatorID": "63006412-cbad-4c57-839f-2b040495365a",
-    "upvotes": 0,
-    "downvotes": 0
   }
 ]
